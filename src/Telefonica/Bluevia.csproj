@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F0194D12-F1B8-460A-A0C4-FE244CD36356}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bluevia</RootNamespace>
+    <AssemblyName>Bluevia</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Bluevia.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotNetOpenAuth">
+      <HintPath>..\libraries\DotNetOpenAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Contracts">
+      <HintPath>..\libraries\Microsoft.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\BaseClient.cs" />
+    <Compile Include="Core\Configuration\Client.cs" />
+    <Compile Include="Core\OAuthBase.cs" />
+    <Compile Include="Core\Schemas\Extension.cs" />
+    <Compile Include="Core\BlueviaClient.cs" />
+    <Compile Include="Core\HttpQueryString.cs" />
+    <Compile Include="Core\Interfaces\IBlueviaClient.cs" />
+    <Compile Include="Core\InMemoryTokenManager.cs" />
+    <Compile Include="Core\Interfaces\IOAuthToken.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\Interfaces\IServiceBuilder.cs" />
+    <Compile Include="Core\Schemas\FileAttachment.cs" />
+    <Compile Include="Core\Schemas\OAuthToken.cs" />
+    <Compile Include="Core\Schemas\QueryString.cs" />
+    <Compile Include="Core\Schemas\StreamAttachment.cs" />
+    <Compile Include="Core\ServiceBuilder.cs" />
+    <Compile Include="Core\Schemas\Exception.cs" />
+    <Compile Include="Core\Schemas\MIMEContent.cs" />
+    <Compile Include="Core\Configuration\UriManager.cs" />
+    <Compile Include="Core\Schemas\WebMethod.cs" />
+    <Compile Include="Core\TwoLeggedOAuth.cs" />
+    <Compile Include="Core\BlueviaConsumer.cs" />
+    <Compile Include="Directory\Schemas\AccessInfoFields.cs" />
+    <Compile Include="Directory\Schemas\GuidType.cs" />
+    <Compile Include="Directory\Schemas\ProfileFields.cs" />
+    <Compile Include="Directory\Schemas\Schemas.cs" />
+    <Compile Include="Directory\Schemas\TerminalInfoFields.cs" />
+    <Compile Include="Directory\Client\AccessInfo.cs" />
+    <Compile Include="Directory\Client\BlueviaClient.cs" />
+    <Compile Include="Directory\Client\IAccessInfo.cs" />
+    <Compile Include="Directory\Client\IBlueviaClient.cs" />
+    <Compile Include="Directory\Client\IProfile.cs" />
+    <Compile Include="Directory\Client\ITerminalInfo.cs" />
+    <Compile Include="Directory\Client\Profile.cs" />
+    <Compile Include="Directory\Client\TerminalInfo.cs" />
+    <Compile Include="Directory\Schemas\UserInfoSearchCategories.cs" />
+    <Compile Include="GAP\Client\BlueviaClient.cs" />
+    <Compile Include="GAP\Client\IAdRequest.cs" />
+    <Compile Include="GAP\Client\IBlueviaClient.cs" />
+    <Compile Include="GAP\Schemas\AdRequest.cs" />
+    <Compile Include="GAP\Schemas\AdResponse.cs" />
+    <Compile Include="GAP\Client\AdRequest.cs" />
+    <Compile Include="GAP\Schemas\ProtectionPolicy.cs" />
+    <Compile Include="GAP\Schemas\Schemas.cs" />
+    <Compile Include="Location\Client\BlueviaClient.cs" />
+    <Compile Include="Location\Client\IBlueviaClient.cs" />
+    <Compile Include="Location\Client\ITerminalLocation.cs" />
+    <Compile Include="Location\Client\TerminalLocation.cs" />
+    <Compile Include="Location\Schemas\Extension.cs" />
+    <Compile Include="Location\Schemas\Schemas.cs" />
+    <Compile Include="Location\Schemas\Tolerance.cs" />
+    <Compile Include="MMS\Client\BlueviaClient.cs" />
+    <Compile Include="MMS\Client\IBlueviaClient.cs" />
+    <Compile Include="MMS\Client\IMessageMO.cs" />
+    <Compile Include="MMS\Client\IMessageMT.cs" />
+    <Compile Include="MMS\Client\INotificationManager.cs" />
+    <Compile Include="MMS\Schemas\DeliveryStatus.cs" />
+    <Compile Include="MMS\Schemas\Extension.cs" />
+    <Compile Include="MMS\Schemas\MMSContentTypes.cs" />
+    <Compile Include="MMS\Schemas\Priority.cs" />
+    <Compile Include="MMS\Schemas\ReceivedMMS.cs" />
+    <Compile Include="MMS\Schemas\Schemas.cs" />
+    <Compile Include="MMS\Client\MessageMO.cs" />
+    <Compile Include="MMS\Client\MessageMT.cs" />
+    <Compile Include="MMS\Client\NotificationManager.cs" />
+    <Compile Include="OAuth\Client\AccessToken.cs" />
+    <Compile Include="OAuth\Client\BlueviaClient.cs" />
+    <Compile Include="OAuth\Client\IAccessToken.cs" />
+    <Compile Include="OAuth\Client\IBlueviaClient.cs" />
+    <Compile Include="OAuth\Client\IRequestToken.cs" />
+    <Compile Include="OAuth\Client\RequestToken.cs" />
+    <Compile Include="OAuth\Schemas\ServiceInfo.cs" />
+    <Compile Include="Payment\Client\AmountCharging.cs" />
+    <Compile Include="Payment\Client\BlueviaClient.cs" />
+    <Compile Include="Payment\Client\IAmountCharging.cs" />
+    <Compile Include="Payment\Client\IBlueviaClient.cs" />
+    <Compile Include="Payment\Schemas\Schemas.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\CoreResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CoreResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SMS\Client\BlueviaClient.cs" />
+    <Compile Include="SMS\Client\IBlueviaClient.cs" />
+    <Compile Include="SMS\Client\IMessageMO.cs" />
+    <Compile Include="SMS\Client\IMessageMT.cs" />
+    <Compile Include="SMS\Client\INotificationManager.cs" />
+    <Compile Include="SMS\Schemas\Extension.cs" />
+    <Compile Include="SMS\Schemas\Schemas.cs" />
+    <Compile Include="SMS\Client\MessageMO.cs" />
+    <Compile Include="SMS\Client\MessageMT.cs" />
+    <Compile Include="SMS\Client\NotificationManager.cs" />
+    <Compile Include="SMS\Schemas\SmsFormat.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Directory\Schemas\UNICA_API_REST_common_types_v1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Directory\Schemas\UNICA_API_REST_directory_types_v1_2_m.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="GAP\Schemas\UNICA_API_REST_common_types_v1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="GAP\Schemas\UNICA_API_SGAP_REST_Binding_types_v1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Location\Schemas\UNICA_API_REST_common_types_v1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Location\Schemas\UNICA_API_REST_location_types_v1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="MMS\Schemas\UNICA_API_REST_common_types_v1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="MMS\Schemas\UNICA_API_REST_mms_types_v1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Payment\Schemas\UNICA_API_RPC_common_types_v1_3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Payment\Schemas\UNICA_API_RPC_definition_v1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Payment\Schemas\UNICA_API_RPC_payment_types_v1_2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SMS\Schemas\UNICA_API_REST_common_types_v1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SMS\Schemas\UNICA_API_REST_sms_types_v1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\CoreResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CoreResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
