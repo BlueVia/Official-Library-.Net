@@ -286,7 +286,7 @@ The Bluevia MMS API is a set of functions which allows users to send and receive
             Bluevia.Core.Schemas.StreamAttachment stream = new Bluevia.Core.Schemas.StreamAttachment
                 (System.IO.MemoryStream data, MMS.Schemas.MMSContentTypes.type, string fileName);
 
-- Creating a MessageNotification object: </ul>
+- Creating a MessageNotification object:
 
             Bluevia.MMS.Schemas.MessageNotificationType notificationObject = new Bluevia.MMS.Schemas.MessageNotificationType()
                 {reference = new MMS.Schemas.SimpleReferenceType() {correlator,endpoint} ,destinationAddress, criteria};
@@ -421,9 +421,12 @@ The Bluevia SMS API is a set of functions which allows users to send and receive
 
 - Sending SMS:
     - First mode:
+
             var response = authenticatedRequest
             .SMS.MessageMT.Send(new string[] {"Destination 1","Destination 2"...    },"Message text");
+
     - Second mode:
+
             var response = authenticatedRequest
             .SMS.MessageMT.Send(message);
 
