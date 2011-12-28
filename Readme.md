@@ -288,50 +288,50 @@ The Bluevia MMS API is a set of functions which allows users to send and receive
 
 - Creating a MessageNotification object: </ul>
 
-        Bluevia.MMS.Schemas.MessageNotificationType notificationObject = new Bluevia.MMS.Schemas.MessageNotificationType()
-            {reference = new MMS.Schemas.SimpleReferenceType() {correlator,endpoint} ,destinationAddress, criteria};
+            Bluevia.MMS.Schemas.MessageNotificationType notificationObject = new Bluevia.MMS.Schemas.MessageNotificationType()
+                {reference = new MMS.Schemas.SimpleReferenceType() {correlator,endpoint} ,destinationAddress, criteria};
 
 ### Methods: ###
 
 - Sending MMS:
     - First mode:
 
-        var response = authenticatedRequest
-        .MMS.MessageMT.Send(message, new FileAttachment[] {File, File …}*);
+            var response = authenticatedRequest
+            .MMS.MessageMT.Send(message, new FileAttachment[] {File, File …}*);
 
     - Second mode:
 
-        var response = authenticatedRequest
-        .MMS.MessageMT.Send(message,StreamAttachment[] streamAttachments);
+            var response = authenticatedRequest
+            .MMS.MessageMT.Send(message,StreamAttachment[] streamAttachments);
     - Third mode:
 
-        var response = authenticatedRequest
-        .MMS.MessageMT.Send(new string[] { "Address", " Address"...}, " mmsSubject", new FileAttachment[] {File, File …}*);
+            var response = authenticatedRequest
+            .MMS.MessageMT.Send(new string[] { "Address", " Address"...}, " mmsSubject", new FileAttachment[] {File, File …}*);
 
 - Getting Status:
 
-    var response = authenticatedRequest
-    .MMS.MessageMT.GetStatus("messageId","Status"*);
+        var response = authenticatedRequest
+        .MMS.MessageMT.GetStatus("messageId","Status"*);
 
 - Retrieving MMS Id:
 
-    var response = authenticatedRequest
-    .MMS.MessageMO.GetMessages("registrationId");
+        var response = authenticatedRequest
+        .MMS.MessageMO.GetMessages("registrationId");
 
 - Getting MMS:
 
-    var response = authenticatedRequest
-    .MMS.MessageMO.GetMessage("registrationId","messageId");
+        var response = authenticatedRequest
+        .MMS.MessageMO.GetMessage("registrationId","messageId");
 
 - Subscribe Notifications:
 
-    var response = authenticatedRequest
-    .MMS.NotificationManager.Subscribe(notificationObject);
+        var response = authenticatedRequest
+        .MMS.NotificationManager.Subscribe(notificationObject);
 
 - Unsubscribe Notifications:
 
-    var response = authenticatedRequest
-    .MMS.NotificationManager.UnSubscribeNotification("notificationId");
+        var response = authenticatedRequest
+        .MMS.NotificationManager.UnSubscribeNotification("notificationId");
 
 
 ## PAYMENT: ##
@@ -355,48 +355,48 @@ If you finally decide to make the payment(with payment method), you can get the 
 
 - Creating a ServiceInfo object: This object must be included in the RequestToken (payment's for) requets.
 
-    Bluevia.OAuth.Schemas.ServiceInfo serviceInfo = Bluevia.OAuth.Schemas.ServiceInfo();
-    serviceInfo.name = name;//of the service
-    paymentInfo.serviceID = string;
+        Bluevia.OAuth.Schemas.ServiceInfo serviceInfo = Bluevia.OAuth.Schemas.ServiceInfo();
+        serviceInfo.name = name;//of the service
+        paymentInfo.serviceID = string;
 
 - Creating a PaymentInfoType object: This object must be included in the RequestToken (payment's for) requets, and in the PaymentParamsType object for the payment request.
 
-    Bluevia.Payment.Schemas.PaymentInfoType paymentInfo = Bluevia.Payment.Schemas.PaymentInfoType();
-    paymentInfo.amount = int;//the last digits will be the currency cents
-    paymentInfo.currency = string;//"EUR","GBP",...
+        Bluevia.Payment.Schemas.PaymentInfoType paymentInfo = Bluevia.Payment.Schemas.PaymentInfoType();
+        paymentInfo.amount = int;//the last digits will be the currency cents
+        paymentInfo.currency = string;//"EUR","GBP",...
 
 - Creating a PaymentParamsType object
 
-    Bluevia.Payment.Schemas.PaymentParamsType paymentParams = Bluevia.Payment.Schemas.PaymentParamsType();
-    paymentParams.paymentInfo = paymentInfo;
+        Bluevia.Payment.Schemas.PaymentParamsType paymentParams = Bluevia.Payment.Schemas.PaymentParamsType();
+        paymentParams.paymentInfo = paymentInfo;
 
 - Creating a GetPaymentStatusParamsType object:
 
-    Bluevia.Payment.Schemas.GetPaymentStatusParamsType paymentStatusParams =        
-        Bluevia.Payment.Schemas.GetPaymentStatusParamsType();
-    paymentStatusParams.transactionId = string;
+        Bluevia.Payment.Schemas.GetPaymentStatusParamsType paymentStatusParams =        
+            Bluevia.Payment.Schemas.GetPaymentStatusParamsType();
+        paymentStatusParams.transactionId = string;
 
 ### Methods: ###
 
 - Requesting RequestTokens for payment use:
 
-    var response = request 
-    .OAuth.RequestToken.Get(paymentInfo, serviceInfo, "callbackUrl"*);
+        var response = request 
+        .OAuth.RequestToken.Get(paymentInfo, serviceInfo, "callbackUrl"*);
 
 - Payment:
 
-    var response = authenticatedRequest
-    .Payment.AmountCharging.Payment(paymentParams);
+        var response = authenticatedRequest
+        .Payment.AmountCharging.Payment(paymentParams);
 
 - Cancel Authorization tokens:
 
-    var response = authenticatedRequest
-    .Payment.AmountCharging.CancelAuthorization();
+        var response = authenticatedRequest
+        .Payment.AmountCharging.CancelAuthorization();
 
 - Getting the payment status:
 
-    var response = authenticatedRequest
-    .Payment.AmountCharging.GetPaymentStatus(paymentStatusParams );
+        var response = authenticatedRequest
+        .Payment.AmountCharging.GetPaymentStatus(paymentStatusParams );
 
 ## SMS:##
 
@@ -408,41 +408,41 @@ The Bluevia SMS API is a set of functions which allows users to send and receive
 
 - Creating a message object:
 
-    Bluevia.SMS.Schemas.SMSTextType message = new Bluevia.MMS.Schemas.MessageType
-        (new string[] {"Destination 1", "Destination 2"...},"Message text"*);
+        Bluevia.SMS.Schemas.SMSTextType message = new Bluevia.MMS.Schemas.MessageType
+            (new string[] {"Destination 1", "Destination 2"...},"Message text"*);
 
 - Creating a MessageNotification object:
 
-    Bluevia.SMS.Schemas.SMSNotificationType notification = new SMS.Schemas.SMSNotificationType()
-        {reference = new SMS.Schemas.SimpleReferenceType(){correlator, endpoint}, destinationAddress, criteria};
+        Bluevia.SMS.Schemas.SMSNotificationType notification = new SMS.Schemas.SMSNotificationType()
+            {reference = new SMS.Schemas.SimpleReferenceType(){correlator, endpoint}, destinationAddress, criteria};
 
 
 ### Methods: ###
 
 - Sending SMS:
     - First mode:
-        var response = authenticatedRequest
-        .SMS.MessageMT.Send(new string[] {"Destination 1","Destination 2"...    },"Message text");
+            var response = authenticatedRequest
+            .SMS.MessageMT.Send(new string[] {"Destination 1","Destination 2"...    },"Message text");
     - Second mode:
-        var response = authenticatedRequest
-        .SMS.MessageMT.Send(message);
+            var response = authenticatedRequest
+            .SMS.MessageMT.Send(message);
 
 - Getting Status:
  
-    var response = authenticatedRequest
-    .SMS.MessageMT.GetStatus("messageId", "status"*);
+        var response = authenticatedRequest
+        .SMS.MessageMT.GetStatus("messageId", "status"*);
 
 - Getting SMS:
 
-    var response = authenticatedRequest
-    .SMS.MessageMO.GetMessages("registrarionId");
+        var response = authenticatedRequest
+        .SMS.MessageMO.GetMessages("registrarionId");
 
 - Subscribe Notifications:
 
-    var response = authenticatedRequest
-    .SMS.NotificationManager.Subscribe(notification);
+        var response = authenticatedRequest
+        .SMS.NotificationManager.Subscribe(notification);
 
 - Unsubscribe Notifications:
 
-    var response = authenticatedRequest
-    .SMS.NotificationManager.UnSubscribeNotification("notificationId");
+        var response = authenticatedRequest
+        .SMS.NotificationManager.UnSubscribeNotification("notificationId");
