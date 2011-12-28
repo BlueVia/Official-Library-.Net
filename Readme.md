@@ -13,7 +13,7 @@ More info:
 This SDK contains:
 
 - doc\
-- html\
+    - html\
 - lib\
     - Bluevia.dll
     - DotNetOpenAuth.dll
@@ -45,9 +45,11 @@ First: Configure your data.
     Bluevia.Core.Configuration.Client.setConsumerSecret("Your_consumer_secret"); 
     
 Second: Create a Bluevia Client. 
+
     BlueviaClient client = new BlueviaClient(); 
     
 Third: Create a Request over the Client.
+
     IBlueviaClient request = client.CreateRequest(); 
     
 Fourth: Authenticate if necessary. 
@@ -98,11 +100,15 @@ NOTE: From here, fields marked with "*" constructing objects or calling methods,
 
 ## COMMON: ##
 
-### Objects: OAuth Token pair: ###
+### Objects: ###
+
+OAuth Token pair:
 
     Bluevia.Core.Schemas.OAuthToken OAuthToken = new Bluevia.Core.Schemas.OAuthToken("accessToken","accessTokenSecret");
 
-### Methods: Storing the AccessToken, and the AccessTokenSecret:###
+### Methods: ###
+
+Storing the AccessToken, and the AccessTokenSecret:
 
 First mode: 
 
@@ -134,12 +140,16 @@ Setting environmental data:
 ## OAuth: ##
 
 
-### Objects: Create OAuth Token pair: ###
+### Objects: ###
+
+Create OAuth Token pair: 
 
     Bluevia.Core.Schemas.OAuthToken OAuthToken = new Bluevia.Core.Schemas.OAuthToken("accessToken","accessTokenSecret");
 
 
-### Methods:</b> Requesting valid tokens for the application:###
+### Methods: ###
+
+Requesting valid tokens for the application:
 
 First Step:
     
@@ -256,30 +266,30 @@ The Bluevia MMS API is a set of functions which allows users to send and receive
 
 - Creating a message object:
 
-    Bluevia.MMS.Schemas.MessageType message = new Bluevia.MMS.Schemas.MessageType
-        (new string[] {"Destination 1","Destination 2"...    },"Message text"*);
+        Bluevia.MMS.Schemas.MessageType message = new Bluevia.MMS.Schemas.MessageType
+            (new string[] {"Destination 1","Destination 2"...    },"Message text"*);
 
 - Creating a FileAttachment object:
 
-    Bluevia.Core.Schemas.FileAttachment file = new Bluevia.Core.Schemas.FileAttachment
-        ("PathToFile", MMS.Schemas.MMSContentTypes.type);
+        Bluevia.Core.Schemas.FileAttachment file = new Bluevia.Core.Schemas.FileAttachment
+            ("PathToFile", MMS.Schemas.MMSContentTypes.type);
 
 - Creating a StreamAttachment object: 
 
     - First mode: 
         
-        Bluevia.Core.Schemas.StreamAttachment stream = new Bluevia.Core.Schemas.StreamAttachment    
-            (byte[] data, MMS.Schemas.MMSContentTypes.type, string fileName);
+            Bluevia.Core.Schemas.StreamAttachment stream = new Bluevia.Core.Schemas.StreamAttachment    
+                (byte[] data, MMS.Schemas.MMSContentTypes.type, string fileName);
 
     - Second mode:
     
-        Bluevia.Core.Schemas.StreamAttachment stream = new Bluevia.Core.Schemas.StreamAttachment
-            (System.IO.MemoryStream data, MMS.Schemas.MMSContentTypes.type, string fileName);
+            Bluevia.Core.Schemas.StreamAttachment stream = new Bluevia.Core.Schemas.StreamAttachment
+                (System.IO.MemoryStream data, MMS.Schemas.MMSContentTypes.type, string fileName);
 
 - Creating a MessageNotification object: </ul>
 
-    Bluevia.MMS.Schemas.MessageNotificationType notificationObject = new Bluevia.MMS.Schemas.MessageNotificationType()
-        {reference = new MMS.Schemas.SimpleReferenceType() {correlator,endpoint} ,destinationAddress, criteria};
+        Bluevia.MMS.Schemas.MessageNotificationType notificationObject = new Bluevia.MMS.Schemas.MessageNotificationType()
+            {reference = new MMS.Schemas.SimpleReferenceType() {correlator,endpoint} ,destinationAddress, criteria};
 
 ### Methods: ###
 
