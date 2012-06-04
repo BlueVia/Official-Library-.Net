@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Bluevia: USING BLUEVIA</title>
+<title>Bluevia .NET SDK: USING BLUEVIA</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,8 +25,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="BlueviaLogo.jpg"></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Bluevia&#160;<span id="projectnumber">1.5</span></div>
+   <div id="projectname">Bluevia .NET SDK&#160;<span id="projectnumber">1.6</span></div>
   </td>
  </tr>
  </tbody>
@@ -36,8 +37,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="dirs.html"><span>Directories</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -79,72 +82,92 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Using Bluevia is easy:</h2>
 <h2><a class="anchor" id="endpoints"></a>
 Endpoints:</h2>
-<p><a class="anchor" id="endpoints"></a> BlueVia has two endpoints, commercial (<b>LIVE</b> or <b>TEST</b>) and sandbox (<b>SANDBOX</b>). Commercial is linked to Telefonica network, and sandbox is used just to verify application behavior (read the <a class="el" href="blv_common.html">COMMON</a> area to learn how to change it). For further information, check: </p>
-<p><a href="https://bluevia.com/en/knowledge/getStarted/Sandbox-and-Live-environments" target="_blank">https://bluevia.com/en/knowledge/getStarted/Sandbox-and-Live-environments</a> </p>
-<h2><a class="anchor" id="oauth_sec"></a>
-OAuth:</h2>
-<p>User authentication is launched using OAuth protocol, so user is not required to use credentials in third party applications. If you want to learn more about OAuth please check: </p>
-<p><a href="https://bluevia.com/en/knowledge/APIs.API-Guides.OAuth" target="_blank">https://bluevia.com/en/knowledge/APIs.API-Guides.OAuth.</a> </p>
-<p><a href="http://oauth.net" target="_blank">http://oauth.net</a>  </p>
-<p>Retrieve two parameters, Token and Token_Secret that will be used during the OAuth process. Both token and token_secret must be saved by the application provider cause OAuth process will require it later in almost every petition to the endpoints.</p>
-<p>Once the user is authenticated and has authorized the application in BlueVia portal, he should be redirected to the URL used as parameter. Now it's time to fetch the valid token and token secret that shall identify the new user during any call to BlueVia API.</p>
-<h3><a class="anchor" id="using_the_sdk"></a>
-USING THE SDK:</h3>
-<p>Most of the requests when accessing Bluevia API are associated to a specific user, so when a BlueviaClient object is created, both user token and user token secret must be provided to identify user on behalf of whom the application wants to access BlueVia APIs. <br/>
-<b>NOTE: From here, fields marked with "*optional" constructing objects or calling methods, means that are optional parameters.</b></p>
-<p><br/>
-</p>
-<p><b>First:</b> Configure your data. </p>
-<div class="fragment"><pre class="fragment">        Bluevia.Core.Configuration.Client.setConsumer(<span class="stringliteral">&quot;Your_consumer_key&quot;</span>);
-        Bluevia.Core.Configuration.Client.setConsumerSecret(<span class="stringliteral">&quot;Your_consumer_secret&quot;</span>); 
-</pre></div> <p><b>Second:</b> Create a Bluevia Client. </p>
-<div class="fragment"><pre class="fragment">        BlueviaClient client = <span class="keyword">new</span> BlueviaClient(); 
-</pre></div> <p><b>Third:</b> Create a Request over the Client. </p>
-<div class="fragment"><pre class="fragment">        IBlueviaClient request = client.CreateRequest(); 
-</pre></div> <p><a class="anchor" id="authenticate"></a><b>Fourth:</b> Authenticate if necessary. </p>
-<div class="fragment"><pre class="fragment">        Bluevia.Core.Configuration.Client.setTokenPair(<span class="stringliteral">&quot;AccessToken&quot;</span>, <span class="stringliteral">&quot;SecretToken&quot;</span>);
-        IBlueviaClient authenticatedRequest = request.AuthenticateClient();
-</pre></div> <p><b>Fifth:</b> Make the desired petition. Note that the 2 legged Oauth petition don't need an authenticated request. And will work, only if the application has been registered for this purpose.</p>
+<p><a class="anchor" id="endpoints"></a> To define functionality required for each API keys, three modes (<b>LIVE</b>, <b>SANDBOX</b> or <b>TEST</b>) can be selected when creating the BlueVia client. <b>LIVE</b> and <b>TEST</b> environment are connected to Movistar and O2 network, and sandbox is used just on development stage to verify application behavior. </p>
 <ul>
 <li>
-2LeggedOauth mode: <div class="fragment"><pre class="fragment">                <span class="keywordflow">try</span>
-                {
-                      var response = request.API.Primitive.Send(Data);
-                }
-                <span class="keywordflow">catch</span> (RestClientException e)
-                {
-                        <span class="keywordflow">if</span> (e.ClientException!=null)
-                        {
-                        <span class="comment">//You can print the exception message with: e.ClientException.text</span>
-                        }<span class="keywordflow">else</span>{
-                        <span class="comment">//You can print the exception message with: e.ServerException.text</span>
-                        }
-                }
-                <span class="keywordflow">catch</span> (Exception e) { } 
-</pre></div> </li>
+<b>LIVE:</b>In the Live environment your application uses the real network, which means that you will be able to send real transactions to real Movistar, O2 and Vivo customers in the applicable country. </li>
 <li>
-3LeggedOauth mode: <div class="fragment"><pre class="fragment">                <span class="keywordflow">try</span>
-                {
-                      var response = authenticatedRequest.API.Primitive.Send(Data);
-                }
-                <span class="keywordflow">catch</span> (RestClientException e)
-                {
-                        <span class="keywordflow">if</span> (e.ClientException!=null)
-                        {
-                        <span class="comment">//You can print the exception message with: e.ClientException.text</span>
-                        }<span class="keywordflow">else</span>{
-                        <span class="comment">//You can print the exception message with: e.ServerException.text</span>
-                        }
-                }
-                <span class="keywordflow">catch</span> (Exception e) { } 
-</pre></div> </li>
+<b>SANDBOX:</b>The Sandbox environment offers you the exact same experience as the Live environment except that no traffic is generated on the live network, meaning you can experiment and play until your heartâ??s content. </li>
+<li>
+<b>TEST:</b>The Test mode behave exactly like the Live mode, but the API calls are free of chargue, using a credits system. You are required to have a Movistar, O2 or Vivo mobile number to get this monthly credits. </li>
 </ul>
+<p>You can get more information on that point at: </p>
+<p><a href="https://www.bluevia.com/en/page/tech.howto.tut_APPtest" target="_blank">Environments Guide</a> </p>
+<h2><a class="anchor" id="identification"></a>
+Identification:</h2>
+<p>BlueVia APIs requires to identify applications in order to asure required traceability for API Authorization and Revenue Sharing process. Application identification is based on an API key used by the application on each API request. </p>
+<ul>
+<li>
+<b>Consumer key</b>The string identifying the application- you obtained when you registered your application within the provisioning portal. </li>
+<li>
+<b>Consumer Secret </b>A secret -a string- used by the consumer to establish ownership of the consumer key. </li>
+</ul>
+<p>You can get full information on that at: </p>
+<p><a href="https://www.bluevia.com/en/page/tech.howto.tut_APIkeys">API keys guide</a>. </p>
+<h2><a class="anchor" id="oauth_sec"></a>
+OAuth:</h2>
+<p>User authentication is launched using OAuth protocol, so user is not required to use credentials in third party applications. If you want to learn more about OAuth please check:</p>
+<p><a href="https://bluevia.com/en/page/tech.APIs.OauthAPI" target="_blank">OAuth API Info</a> </p>
+<p><a href="http://oauth.net" target="_blank">http://oauth.net</a>  </p>
+<p>Retrieve two parameters, TokenKey and TokenSecret that will be used during the OAuth process. Both tokenKey and tokenSecret must be saved by the application provider cause OAuth process will require it later in almost every petition to the endpoints.</p>
+<p>Once the user is authenticated and has authorized the application in BlueVia portal, he should be redirected to the URL used as parameter. Now it's time to fetch the valid tokenKey and tokenSecret that shall identify the new user during any call to BlueVia API. <br/>
+Please read the <a class="el" href="blv_authorization.html">Authorization guide</a>, for detailed information of how to authorize an user.</p>
+<h3><a class="anchor" id="using_the_sdk"></a>
+USING THE SDK:</h3>
+<p>Most of the requests when accessing <a class="el" href="namespace_bluevia.html">Bluevia</a> API are associated to a specific user, so when a BlueviaClient object is created, both user token and user token secret must be provided to identify user on behalf of whom the application wants to access BlueVia APIs. <br/>
+However, other services like receiving messages, don't need to identify an user, and only need the API keys.</p>
+<p><br/>
+</p>
+<p>To call a <a class="el" href="namespace_bluevia.html">Bluevia</a> service with this SDK, you only have to do the following: </p>
+<p><b>First:</b> Create your API client: </p>
+<ul>
+<li>
+Client for user services (identifying the final user with his authorized tokens). <br/>
+(read the <a class="el" href="blv_authorization.html">Authorization Guide</a>, to know how to retrieve this tokens) <div class="fragment"><pre class="fragment">                <span class="keywordflow">try</span>
+                {
+                        BV_API api3LeggedClient = <span class="keyword">new</span> BV_API(<a class="code" href="namespace_bluevia_1_1_core.html#a6d597bbeea6b9b015d7d048b1b998ff7" title="BVMode.">BVMode</a>.Mode, consumerKey, consumerSecret, tokenKey, tokenSecret);
+                }
+                <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div>  </li>
+<li>
+Client for app services (identifying the app only with the API keys). <div class="fragment"><pre class="fragment">                <span class="keywordflow">try</span>
+                {
+                        BV_API api2LeggedClient = <span class="keyword">new</span> BV_API(<a class="code" href="namespace_bluevia_1_1_core.html#a6d597bbeea6b9b015d7d048b1b998ff7" title="BVMode.">BVMode</a>.Mode, consumerKey, consumerSecret);
+                }
+                <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div>  </li>
+</ul>
+<p><b>Second:</b> Call the desired service: </p>
+<div class="fragment"><pre class="fragment">                <span class="keywordflow">try</span>
+                {
+                        BlueviaResponseInfoObject response = apiClient.Service(parameters...); 
+                }
+                <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p> <br/>
+Note that some services must be invoked over the appropiate client (2legged or 3legged), you can find detailed information in the respective API guide. <br/>
+ </p>
+<h3><a class="anchor" id="using_exception"></a>
+Bluevia Exception:</h3>
+<p><a class="el" href="class_bluevia_1_1_core_1_1_schemas_1_1_bluevia_exception.html" title="Exception class with the neccesary data fields for Bluevia using.">Bluevia.Core.Schemas.BlueviaException</a> </p>
+<p>A bluevia exception is the object that raises when an invalid value has been passed as parameter to a bluevia service, or when a incompatible mode has been selectod to execute a service. Even when an error occurred during the http comunication with the <a class="el" href="namespace_bluevia.html">Bluevia</a> endpoint. <br/>
+So is highly recomended to manage these exceptions, to control the possible errors in your application: </p>
+<div class="fragment"><pre class="fragment">                <span class="keywordflow">try</span>
+                {
+                        BlueviaResponseInfoObject response = apiClient.Service(parameters...); 
+                }
+                <span class="keywordflow">catch</span> (BlueviaException e)
+                {
+                        Console.Writeline(<span class="stringliteral">&quot;An Error occurred during the Service proccess, &quot;</span> +
+                        e.code + <span class="stringliteral">&quot; : &quot;</span> + e.Message);
+                }
+</pre></div><p><br/>
+ </p>
 <p><b>Guides:</b> </p>
 <ul>
 <li>
 <a class="el" href="blv_using_bluevia.html">Using Bluevia</a> </li>
 <li>
-<a class="el" href="blv_common.html">Common</a> </li>
+<a class="el" href="blv_authorization.html">Authorization</a> </li>
 <li>
 <a class="el" href="blv_api_oauth.html">Oauth</a> </li>
 <li>
@@ -170,17 +193,12 @@ USING THE SDK:</h3>
 </div>
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="footer">Generated on Mon Jan 23 2012 08:36:16 for Bluevia by&#160;
-<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
-    </ul>
-  </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Properties</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Properties</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -189,6 +207,7 @@ USING THE SDK:</h3>
 </iframe>
 </div>
 
+<footer>
+Telefonica R&D, Bluevia's SDK Team.
+</footer>
 
-</body>
-</html>

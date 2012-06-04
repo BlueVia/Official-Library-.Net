@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Bluevia: PAYMENT API</title>
+<title>Bluevia .NET SDK: PAYMENT API GUIDE</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,8 +25,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="BlueviaLogo.jpg"></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Bluevia&#160;<span id="projectnumber">1.5</span></div>
+   <div id="projectname">Bluevia .NET SDK&#160;<span id="projectnumber">1.6</span></div>
   </td>
  </tr>
  </tbody>
@@ -36,8 +37,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="dirs.html"><span>Directories</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -72,55 +75,219 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="doc-content">
 <div class="header">
   <div class="headertitle">
-<h1>PAYMENT API </h1>  </div>
+<h1>PAYMENT API GUIDE </h1>  </div>
 </div>
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="section_payment"></a> </p>
 <h2><a class="anchor" id="section_payment"></a>
 PAYMENT:</h2>
-<p><a href="https://bluevia.com/en/knowledge/APIs.API-Guides.Payment" target="_blank">Bluevia's Payment API Guide</a> </p>
-<p>The Bluevia PAYMENT API is a set of functions which allows individual, atomic payments based on input purchase information with economic data.</p>
+<p>The <a class="el" href="namespace_bluevia.html">Bluevia</a> PAYMENT API is a set of functions which allows individual, atomic payments based on input purchase information with economic data.</p>
 <p><b>You must consider that the Oauth Token model changes for the Payment API:<br/>
 </b> Usually, you only have to request one Token Pair for your whole application. <br/>
-But in the Payment case, a new special temporal Token Pair must be requested for each "payment request". And will be only usefull for that payment request and its relatives operations, "cancel authorization request", "get status request"... <br/>
-I.E.: If you want to make a payment: First of all you must request a new pair of RequestTokens in the "payment way". After that you have to retrieve the AccessTokens as always. <br/>
-Next Step is to store that AccessTokens, and once stored, you can cancel it (with cancelAuthorization method), or make the payment. <br/>
-If you finally decide to make the payment(with payment method), you can get the status or request notifications (if the country permits asinchronus payments), with the same Tokens. But, if you want to make another payment, you have to request a new pair of tokens for it. </p>
-<p><b>Note that Request parameters are now simplified, and you dont need to build previous objects.</b></p>
-<h2><a class="anchor" id="objects_payment"></a>
-Objects:</h2>
-<h2><a class="anchor" id="methods_payment"></a>
-Methods:</h2>
-<p><a class="anchor" id="methods_payment"></a></p>
+But in the Payment case, a new special temporal Token Pair must be requested for each "payment request". And will be only usefull for that payment request and its relatives operations, "cancel authorization request", "get status request"...</p>
+<p>I.E.: If you want to make a payment: <br/>
+First of all you must request a new pair of RequestTokens in the "payment way". After that, you take the user to <a class="el" href="namespace_bluevia.html">Bluevia</a> connect, in order to authorize the transaction, and then retrieve the AccessTokens as always. <br/>
+Next Step is to store that AccessTokens, and once stored, you can cancel it (with CancelAuthorization method), or make the payment. <br/>
+If you finally decide to make the payment(with Payment method), you can get the status or request notifications (if the country permits asynchronus payments), with the same Tokens. But, if you want to make another payment, you have to request a new pair of tokens for it. </p>
+<p>If you want to understand how Payment API works please read the BlueVia <a href="https://www.bluevia.com/en/page/tech.APIs.PaymentAPI">Bluevia's Payment API guide</a>.</p>
+<p>Don't forget to read the <a class="el" href="blv_authorization.html">authorization guide</a> first.</p>
+<p><b>Note that only SANDBOX and LIVE environments are available for the Payment API</b> </p>
+<p><b>This guide is divided into the following sections:</b> </p>
 <ul>
 <li>
-<p class="startli">Requesting RequestTokens for payment use:</p>
-<div class="fragment"><pre class="fragment">    var response = request 
-    .OAuth.RequestToken.Get(amount, <span class="stringliteral">&quot;currency&quot;</span>(EUR,GBP..), <span class="stringliteral">&quot;name of the service&quot;</span>, <span class="stringliteral">&quot;serviceID&quot;</span>, <span class="stringliteral">&quot;callbackUrl&quot;</span>*optional);
-</pre></div> <p class="endli"></p>
+<a href="#clients_payment">Payment Clients</a>.  </li>
+<li>
+<a href="#methods_payment">Payment Methods</a>. <ul>
+<li>
+<a href="#methods_payment_auth">Payment authorization methods</a>. <ul>
+<li>
+<a href="#payment_auth_req">Retrieving a request token</a>. </li>
+<li>
+<a href="#payment_auth_acc">Retrieving an access token</a>. </li>
+<li>
+<a href="#payment_auth_set">Storing the access token</a>. </li>
+</ul>
 </li>
 <li>
-Payment: For Status notificatios to your own server, you should include the "endpoint" and "correlator" fields on the request. <div class="fragment"><pre class="fragment">        var response = authenticatedRequest
-        .Payment.AmountCharging.Payment( amount, <span class="stringliteral">&quot;currency&quot;</span>(EUR,GBP..),<span class="stringliteral">&quot;endpoint&quot;</span>*optional,<span class="stringliteral">&quot;correlator&quot;</span>*optional);
-</pre></div>  </li>
+<a href="#methods_payment_trn">Payment transaction methods</a>. <ul>
 <li>
-<p class="startli">Cancel Authorization tokens:</p>
-<div class="fragment"><pre class="fragment">        var response = authenticatedRequest
-        .Payment.AmountCharging.CancelAuthorization();
-</pre></div>  </li>
+<a href="#payment_trn_pay">Making a Payment</a>. </li>
 <li>
-<p class="startli">Getting the payment status:</p>
-<div class="fragment"><pre class="fragment">        var response = authenticatedRequest
-        .Payment.AmountCharging.GetPaymentStatus(<span class="stringliteral">&quot;transactionId&quot;</span>);
-</pre></div> <p class="endli"></p>
+<a href="#payment_trn_get">Retrieving the payment status</a>. </li>
+<li>
+<a href="#payment_trn_can">Cancelling the payment tokens</a>. </li>
+</ul>
 </li>
 </ul>
+</li>
+</ul>
+<p><a class="anchor" id="clients_payment"></a> </p>
+<h3><a class="anchor" id="clients_payment"></a>
+Payment Clients</h3>
+<p><a class="el" href="class_bluevia_1_1_payment_1_1_client_1_1_b_v___payment.html#a26ffc0d8c9a3c659f7c00df8ce490d6a" title="Initializes a new instance of the BV_OAuth. 2 and 3 Legged Constructor.">Bluevia.Payment.Client.BV_Payment.BV_Payment</a> <br/>
+A Payment client represents the client side in a classic client-server schema. This object wraps up the underlying RPC client side functionality needed to perform requests against a RPC server. <br/>
+A BV_Payment client, can be used for both, authorize and execute transactions, but usually, a full authorize-&gt;execute proccess is going to be sequentially done. So you don't need to have the access tokens initially. <br/>
+You have to take account that once you have done the authorization process, you can execute the transaction immediately, as the access Tokens are automatically stored. <br/>
+And a transcation client can be used to pass another authorization proccess, but in this case, the original tokens will be lost. </p>
+<ul>
+<li>
+<p class="startli">Payment Client for transaction authorization: </p>
+<div class="fragment"><pre class="fragment">        BV_Payment payment2LeggedClient = <span class="keyword">new</span> BV_Payment(<a class="code" href="namespace_bluevia_1_1_core.html#a6d597bbeea6b9b015d7d048b1b998ff7" title="BVMode.">BVMode</a>.SANDBOX, yourConsumerKey, yourConsumerSecret);
+</pre></div> <p class="endli"></p>
+</li>
+<li>
+Payment Client for payment transactions (if you already have the transaction access token): <div class="fragment"><pre class="fragment">        BV_Payment payment3LeggedClient = <span class="keyword">new</span> BV_Payment(<a class="code" href="namespace_bluevia_1_1_core.html#a6d597bbeea6b9b015d7d048b1b998ff7" title="BVMode.">BVMode</a>.SANDBOX, yourConsumerKey, yourConsumerSecret, token, tokenSecret);
+</pre></div>  </li>
+</ul>
+<p>&#160;</p>
+<p><a class="anchor" id="methods_payment"></a> </p>
+<h2><a class="anchor" id="methods_payment"></a>
+Methods:</h2>
+<p><a class="anchor" id="methods_payment_auth"></a> </p>
+<h3><a class="anchor" id="methods_payment_auth"></a>
+MMS Payment authorization methods:</h3>
+<p><a class="anchor" id="payment_auth_req"></a> </p>
+<h3><a class="anchor" id="payment_auth_req"></a>
+Retrieving a request token:</h3>
+<p><a class="el" href="class_bluevia_1_1_payment_1_1_client_1_1_b_v___payment.html#a2c51cacf84aad6cd42503cbbcee9e614" title="Method to get the Request Token for Payment Api.">Bluevia.Payment.Client.BV_Payment.GetPaymentRequestToken</a> <br/>
+In order to make a full authorization proccess, first, you have to retrieve a request token to be authorised by the user. In this case you have to use the GetPaymentRequestToken function, which includes the Payment info besides the usual request tokens params: </p>
+<ul>
+<li>
+The <b>amount</b> parameter is the amount to be charged, it may be an economic amount or a number of 'virtual units' (points, tickets, etc).  </li>
+<li>
+The <b>currency</b> parameter is the currency which corresponds with the amount above, following ISO 4217 </li>
+<li>
+The <b>name</b> parameter is the product name as registered at our Mobile Payments Partner. </li>
+<li>
+The <b>serviceID</b> parameter is the product identifier provided by our Mobile Payments Partner when the merchant registered the digital good to be sold at the Merchants website. </li>
+<li>
+The <b>callback</b> parameter indicates bluevia how the verification code must be offered to the customer (oob or url). The SMSHandshake, is not available in Payment API. </li>
+</ul>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                RequestToken requestToken = payment2LeggedClient.GetPaymentRequestToken
+                (
+                        amount: yourAmount, <span class="comment">//MANDATORY</span>
+                        currency: yourCurrency, <span class="comment">//MANDATORY</span>
+                        name: yourName, <span class="comment">//MANDATORY</span>
+                        serviceID: yourServiceID, <span class="comment">//MANDATORY</span>
+                        callback: <span class="stringliteral">&quot;oob&quot;</span> <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p>Once the request tokens are retrieved, the user must be taken to <a class="el" href="namespace_bluevia.html">Bluevia</a> connect to authorize the transaction. </p>
+<p><a class="anchor" id="payment_auth_acc"></a> </p>
+<h3><a class="anchor" id="payment_auth_acc"></a>
+Retrieving an access token:</h3>
+<p><a class="el" href="class_bluevia_1_1_payment_1_1_client_1_1_b_v___payment.html#ad4a4a338756f8b3ace377c6764a3584e" title="Gets the Access Token For the specified Payment.">Bluevia.Payment.Client.BV_Payment.GetPaymentAccessToken</a> <br/>
+ With the obatined oauthVerifier, you can now get the accessToken from the user: </p>
+<ul>
+<li>
+The <b>oauthVerifier</b> parameter indicates bluevia how the verification code must be offered to the customer.  </li>
+<li>
+The <b>requestToken</b> parameter refer to the requestToken Key previously retrieved by the getRequestToken method.  </li>
+<li>
+The <b>requestSecret</b> parameter refer to the requestToken Secret previously retrieved by the getRequestToken method.  </li>
+</ul>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                Token accessToken = payment3LeggedClient.GetPaymentAccessToken
+                (
+                        oauthVerifier:verification, <span class="comment">//MANDATORY</span>
+                        requestToken:null, <span class="comment">//Optional </span>
+                        requestSecret:null <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div> <p><a class="anchor" id="payment_auth_set"></a> </p>
+<h3><a class="anchor" id="payment_auth_set"></a>
+Storing the access token token:</h3>
+<p><a class="el" href="class_bluevia_1_1_payment_1_1_client_1_1_b_v___payment.html#a707393a408591fa80d7e4e36b38b7c2c" title="Method to set tokens of a previous Payment.">Bluevia.Payment.Client.BV_Payment.SetTokens</a> <br/>
+ In case that you want to continue an authorization proccess from the requestToken step, or you want to continue a transaction process with old accesTokens, you can use the following function to store the tokens into the client:</p>
+<ul>
+<li>
+The <b>token</b> parameter refer to the requestToken or accessToken Key previously retrieved. </li>
+<li>
+The <b>tokenSecret</b> parameter refer to the requestToken or accessToken Secret previously retrieved. </li>
+</ul>
+<div class="fragment"><pre class="fragment"><span class="keywordflow">try</span>
+        {
+                payment2LeggedClient.SetTokens
+                (
+                        token : <span class="stringliteral">&quot;previous token&quot;</span>, <span class="comment">//MANDATORY </span>
+                        tokenSecret: <span class="stringliteral">&quot;previous tokenSecret&quot;</span> <span class="comment">//MANDATORY</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div> <p>&#160;</p>
+<p><a class="anchor" id="methods_payment_trn"></a> </p>
+<h3><a class="anchor" id="methods_payment_trn"></a>
+Payment transaction methods:</h3>
+<p><a class="anchor" id="payment_trn_pay"></a> </p>
+<h3><a class="anchor" id="payment_trn_pay"></a>
+Making a Payment:</h3>
+<p><a class="el" href="class_bluevia_1_1_payment_1_1_client_1_1_b_v___payment.html#acbf76392c4dc4e9491b6a55363fa010b" title="This operation allows to request a charge in the account indicated by the end user identifier...">Bluevia.Payment.Client.BV_Payment.Payment</a> <br/>
+ It's a once shot function. Once used for an OAuthToken, given in the client constructor, it cannot be used again to make a payment (but it can be used to retrieve the status of the operation). If the result status of the process of payment is a success then a transaction identifier is returned. Otherwise, if the result status of the payment process is a failure then none is returned and a BlueviaException with detailed information is thrown. This function provides the main feature of the API, the making of payments. <br/>
+It is possible to receive status notifications by providing <a class="el" href="namespace_bluevia.html">Bluevia</a> with an URI where notifications must be sent: </p>
+<ul>
+<li>
+The <b>amount</b> parameter is the amount to be charged, it may be an economic amount or a number of 'virtual units' (points, tickets, etc) </li>
+<li>
+The <b>currency</b> parameter is the type of currency which corresponds with the amount above, following ISO 4217 </li>
+<li>
+The <b>endpoint</b> parameter is the endpoint to receive notifications of payments operations. </li>
+<li>
+The <b>correlator</b> parameter is an string to correlate the requests and the notifications. </li>
+</ul>
+<div class="fragment"><pre class="fragment"><span class="keywordflow">try</span>
+        {
+                PaymentResult paymentResult = payment3LeggedClient.Payment
+                (
+                        amount: yourAmount, <span class="comment">//MANDATORY</span>
+                        currency: yourCurrency, <span class="comment">//MANDATORY</span>
+                        endpoint: null, <span class="comment">//Optional</span>
+                        correlator: null <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p> <b>Processing the response:</b> <br/>
+<a class="el" href="class_bluevia_1_1_payment_1_1_schemas_1_1_payment_result.html" title="Class representing the response of a payment.">Bluevia.Payment.Schemas.PaymentResult</a> This function returns a PaymentResult object, please read the object description to further information. </p>
+<p><a class="anchor" id="payment_trn_get"></a> </p>
+<h3><a class="anchor" id="payment_trn_get"></a>
+Retrieving the payment status:</h3>
+<p><a class="el" href="class_bluevia_1_1_payment_1_1_client_1_1_b_v___payment.html#a168d9ceee37668a1a417f3ead5a2a3a7" title="This operation allows to query for the current status of an already initiated purchase (i...">Bluevia.Payment.Client.BV_Payment.GetPaymentStatus</a> <br/>
+ The function getPaymentStatus allows to request the status of a previous payment operation. Use its transaction identifier as sole parameter. </p>
+<ul>
+<li>
+The <b>transactionId</b> identifier of the payment wich status we want to retrieve. </li>
+</ul>
+<div class="fragment"><pre class="fragment"><span class="keywordflow">try</span>
+        {
+                PaymentStatus paymentStatus = payment3LeggedClient.GetPaymentStatus
+                (
+                        transactionId: paymentResult.transactionId <span class="comment">//MANDATORY</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p> <b>Processing the response:</b> <br/>
+<a class="el" href="class_bluevia_1_1_payment_1_1_schemas_1_1_payment_status.html" title="Class representing the status of a previous payment.">Bluevia.Payment.Schemas.PaymentStatus</a> This function returns a PaymentStatus object, please read the object description to further information. </p>
+<p><a class="anchor" id="payment_trn_can"></a> </p>
+<h3><a class="anchor" id="payment_trn_can"></a>
+Cancelling the payment tokens:</h3>
+<p><a class="el" href="class_bluevia_1_1_payment_1_1_client_1_1_b_v___payment.html#a3e307d484402adde1b66acc8f8417749" title="Cancels the previous AccesToken requested, before making the payment.">Bluevia.Payment.Client.BV_Payment.CancelAuthorization</a> <br/>
+ After having requested a token you can cancel the authorization for that token before making the payment, or cancel get status requests after the payment. If the cancel authorization process is unsuccessful then an BlueviaException with detailed information is thrown. </p>
+<div class="fragment"><pre class="fragment"><span class="keywordflow">try</span>
+        {
+                var cancelResult = payment3LeggedClient.CancelAuthorization();
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p>&#160;</p>
 <p><b>Guides:</b> </p>
 <ul>
 <li>
 <a class="el" href="blv_using_bluevia.html">Using Bluevia</a> </li>
 <li>
-<a class="el" href="blv_common.html">Common</a> </li>
+<a class="el" href="blv_authorization.html">Authorization</a> </li>
 <li>
 <a class="el" href="blv_api_oauth.html">Oauth</a> </li>
 <li>
@@ -146,17 +313,12 @@ Payment: For Status notificatios to your own server, you should include the "end
 </div>
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="footer">Generated on Mon Jan 23 2012 08:36:16 for Bluevia by&#160;
-<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
-    </ul>
-  </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Properties</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Properties</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -165,6 +327,7 @@ Payment: For Status notificatios to your own server, you should include the "end
 </iframe>
 </div>
 
+<footer>
+Telefonica R&D, Bluevia's SDK Team.
+</footer>
 
-</body>
-</html>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Bluevia: Introduction</title>
+<title>Bluevia .NET SDK: Introduction</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,8 +25,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="BlueviaLogo.jpg"></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Bluevia&#160;<span id="projectnumber">1.5</span></div>
+   <div id="projectname">Bluevia .NET SDK&#160;<span id="projectnumber">1.6</span></div>
   </td>
  </tr>
  </tbody>
@@ -36,8 +37,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="dirs.html"><span>Directories</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -77,7 +80,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><h2><a class="anchor" id="introduction"></a>
 Introduction</h2>
-<p>Bluevia’s .NET SDK” allows you to use the BlueVia’s public API from your .NET application using just a few lines of code. You only need to download the SDK, reference the BlueVia libraries into your solution, create API keys for it, and use all the BlueVia's functionality in an easy way.</p>
+<p>Welcome, and thankyou for download the Bluevia’s .NET SDK.</p>
+<p><a class="el" href="namespace_bluevia.html">Bluevia</a> is the global developer platform from Telefonica that helps developers take apps, web services and ideas to market. Bluevia’s .NET SDK makes it easy for your application to access our network APIs. This includes payments, communications and much more, available using web technologies like RESTful API's and OAuth. .NET for BlueVia allows you to use the BueVia public APIs from your .NET application using just few lines of code. You can learn more about <a class="el" href="namespace_bluevia.html">Bluevia</a> in: <br/>
+<a href="https://www.bluevia.com">www.bluevia.com</a></p>
 <p>BlueVia offers you: </p>
 <ul>
 <li>
@@ -97,12 +102,14 @@ Introduction</h2>
  More info: </p>
 <ul>
 </ul>
-<p><a href="https://bluevia.com/en/knowledge/APIs">https://bluevia.com/en/knowledge/APIs</a><br/>
-   </p>
+<p><a href="https://bluevia.com/en/page/tech.APIs">https://bluevia.com/en/page/tech.APIs</a><br/>
+  </p>
+<h3><a class="anchor" id="sdk_overview_sec"></a>
+SDK Overview:</h3>
 <p><b>This SDK contains:</b></p>
 <ul>
 <li>
-DEMO\ <ul>
+samples\ <ul>
 <li>
 BlueviaExamples\ </li>
 </ul>
@@ -118,7 +125,7 @@ lib\ <ul>
 <li>
 Bluevia.dll </li>
 <li>
-DotNetOpenAuth.dll </li>
+Microsoft.Contracts.dll </li>
 </ul>
 </li>
 <li>
@@ -128,84 +135,45 @@ libraries\ </li>
 <li>
 Telefonica\ </li>
 <li>
-<a class="el" href="namespace_example.html">Example</a>\ </li>
-<li>
 Bluevia.sln </li>
 </ul>
 </li>
 <li>
 LICENSE.txt </li>
 </ul>
-<h3><a class="anchor" id="sdk_overview_sec"></a>
-SDK Overview:</h3>
-<p>Supported Operating Systems:</p>
+<p><a class="anchor" id="developer_library_framework"></a> </p>
+<p><b><a class="el" href="namespace_bluevia.html">Bluevia</a> library framework:</b></p>
+<p>The <a class="el" href="namespace_bluevia.html">Bluevia</a> .NET library architecture is mainly composed of three modules:</p>
 <ul>
 <li>
-Windows XP (32-bit or 64-bit). </li>
+<b>An abstract data client</b>, or connector, that performs the low level operations required to retrieve data from the remote servers. This layer is responsible for generating and propagating exceptions or error codes to the upper levels, were they needed.  </li>
 <li>
-Windows Vista (32-bit or 64-bit). </li>
+<b>A client interface layer.</b> This layer provides the interfaces, abstract classes and generic classes needed to implement specific clients for the different APIs. Every API in <a class="el" href="namespace_bluevia.html">Bluevia</a> inherits from the same abstract class, implementing the particular logic for each of the APIs in the final, non-abstract class that is also the interface to the user of the API.  </li>
 <li>
-Windows 7 (32-bit or 64-bit). </li>
+<b>A parsing and serializing layer.</b> This layer is responsible for parsing any data received from the remote end and populate the data model objects in the library with any data received, as well as for generating output streams that can be sent to the remote end from data contained in the library data model objects whenever it is necessary to send information to the server. </li>
 </ul>
-<h3><a class="anchor" id="enviroment_needed_sec"></a>
-Environment needed:</h3>
+<p><a class="anchor" id="developer_client_basics"></a> </p>
+<p><b>Clients basics:</b></p>
+<p>The main component of the <a class="el" href="namespace_bluevia.html">Bluevia</a> library is the APIClient, which represents the client side in a classic client-server schema. The library specify a REST or RPC Client for each one of the supported APIs (i.e. BV_Directory, BV_MTSMS), and defines the operations provided by their respective <a class="el" href="namespace_bluevia.html">Bluevia</a> APIs. Almost every bluevia client must be created by providing API keys and the customer related tokens.</p>
+<p>According to this, the <a class="el" href="namespace_bluevia.html">Bluevia</a> library presents an easy programming model, concealing the communication mechanism from the developer. The way to work is:</p>
 <ul>
 <li>
-.NET Framework 4 </li>
+First, instantiate the corresponding client. You must provide the communication mechanism and the authorization information.  </li>
 <li>
-Microsoft Visual Studio 2010 </li>
-<li>
-Also, to check your application requests is highly recommended the use of a traffic monitoring tool (as Fiddler2) </li>
+Now use the operations defined by the client.  </li>
 </ul>
-<h3><a class="anchor" id="changes_from_older"></a>
-Changes from last version:</h3>
-<p>Please pay attention to this changes:</p>
-<ul>
-<li>
-<p class="startli"><b>GENERAL: The SDK now generates the Bluevia.dll in the \lib directory (instead than previous versions, where the .dll was generated in \src\Telefonica\bin\Release), so if you change the source code, be sure to make a copy of the original .dll file</b></p>
-<p class="endli"></p>
-</li>
-<li>
-<p class="startli"><a class="el" href="blv_demos.html">GENERAL: New project full of examples for Bluevia's APIs is now added. You can load and run it from \DEMO\BlueviaExamples.</a></p>
-<p class="endli"></p>
-</li>
-<li>
-<p class="startli"><a class="el" href="blv_using_bluevia.html#endpoints">GENERAL: Bluevia has changed its Environment Systems to: SANDBOX, TEST and LIVE. So there are little changes to configure it.</a></p>
-<p class="endli"></p>
-</li>
-<li>
-<p class="startli"><a class="el" href="blv_using_bluevia.html#using_the_sdk">GENERAL: Authenticating the client is easier, you won't need to pass the accessToken.</a></p>
-<p class="endli"></p>
-</li>
-<li>
-<p class="startli"><a class="el" href="blv_api_oauth.html#methods_oauth">OAUTH: "RequestToken.Get" methods, now return a new "Bluevia.OAuth.Schemas.RequestToken", with an "AuthoriseUrl" field.</a></p>
-<p class="endli"></p>
-</li>
-<li>
-<p class="startli"><a class="el" href="blv_api_mms.html#methods_mms">MMS MO: (Notifications and Getting messages), is now requested by 2leggedOauth Method.</a></p>
-<p class="endli"></p>
-</li>
-<li>
-<p class="startli"><a class="el" href="blv_api_mms.html#methods_mms">MMS MO: "getMessage" new functionality.</a></p>
-<p class="endli"></p>
-</li>
-<li>
-<p class="startli"><a class="el" href="blv_api_mms.html#methods_mms">MMS MO: new method: "GetAttachment".</a></p>
-<p class="endli"></p>
-</li>
-<li>
-<p class="startli"><a class="el" href="blv_api_sms.html#methods_sms">SMS MO: (Notifications and Getting messages), is now requested by 2leggedOauth Method.</a></p>
-<p class="endli"></p>
-</li>
-<li>
-<a class="el" href="blv_api_payment.html#methods_payment">PAYMENT: Request parameters are now simplified.</a> </li>
-</ul>
+<p><b>For a detailed guide of how to use the library, read the:</b> <br/>
+<a class="el" href="blv_using_bluevia.html">Using Bluevia.</a>  </p>
+<p><b>For a Detailed guide of how to install the library, and getting started, read the:</b> <br/>
+<a class="el" href="blv_getting_started.html">Getting Started Guide</a> </p>
+<p><br/>
+</p>
 <p><b>Guides:</b> </p>
 <ul>
 <li>
 <a class="el" href="blv_using_bluevia.html">Using Bluevia</a> </li>
 <li>
-<a class="el" href="blv_common.html">Common</a> </li>
+<a class="el" href="blv_authorization.html">Authorization</a> </li>
 <li>
 <a class="el" href="blv_api_oauth.html">Oauth</a> </li>
 <li>
@@ -231,17 +199,12 @@ Changes from last version:</h3>
 </div>
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="footer">Generated on Mon Jan 23 2012 08:36:16 for Bluevia by&#160;
-<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
-    </ul>
-  </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Properties</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Properties</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -250,6 +213,7 @@ Changes from last version:</h3>
 </iframe>
 </div>
 
+<footer>
+Telefonica R&D, Bluevia's SDK Team.
+</footer>
 
-</body>
-</html>

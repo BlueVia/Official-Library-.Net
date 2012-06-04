@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Bluevia: ADVERTISING API</title>
+<title>Bluevia .NET SDK: ADVERTISING API GUIDE</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,8 +25,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="BlueviaLogo.jpg"></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Bluevia&#160;<span id="projectnumber">1.5</span></div>
+   <div id="projectname">Bluevia .NET SDK&#160;<span id="projectnumber">1.6</span></div>
   </td>
  </tr>
  </tbody>
@@ -36,8 +37,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="dirs.html"><span>Directories</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -72,38 +75,123 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="doc-content">
 <div class="header">
   <div class="headertitle">
-<h1>ADVERTISING API </h1>  </div>
+<h1>ADVERTISING API GUIDE </h1>  </div>
 </div>
 <div class="contents">
 <div class="textblock"><h2><a class="anchor" id="section_advertising"></a>
 ADVERTISING:</h2>
 <p><a class="anchor" id="section_advertising"></a></p>
-<p><a href="https://bluevia.com/en/knowledge/APIs.API-Guides.Advertising" target="_blank">Bluevia's Advertising API Guide</a> </p>
-<p>The Bluevia Advertising API is a set of functions which allows users to provide advertising based on different advertisement types such as images or texts or similar elements within their applications.</p>
-<h2><a class="anchor" id="objects_advertising"></a>
-Objects:</h2>
-<p><a class="anchor" id="objects_advertising"></a> Creating a request object: </p>
-<div class="fragment"><pre class="fragment">        Bluevia.SGAP.SimpleAdRequest adRequest = <span class="keyword">new</span> SimpleAdRequest
-        (adRequestId, adSpace, userAgent, protectionPolicy, adRequestId*optional,targetUserId*optional,<span class="stringliteral">&quot;country&quot;</span>*optional, adPresentationSize*optional);
-</pre></div><h2><a class="anchor" id="methods_advertising"></a>
-Methods:</h2>
-<p><a class="anchor" id="methods_advertising"></a> Requesting an advertising: </p>
+<p>The <a class="el" href="namespace_bluevia.html">Bluevia</a> OAuth API is a set of functions which allows applications to retrieve request and access tokens to complete the OAuth authentication protocol, necessary to be able to get and send data to <a class="el" href="namespace_bluevia.html">Bluevia</a> APIs. This guide represents a practical introduction to include the OAuth protocol in <a class="el" href="namespace_bluevia.html">Bluevia</a> applications. </p>
+<p>If you want to understand how Advertising API works please read the BlueVia <a href="https://www.bluevia.com/en/page/tech.APIs.AdvertisingAPI">Bluevia's Advertising API guide</a>.</p>
+<p>Don't forget to read the <a class="el" href="blv_authorization.html">authorization guide</a> first.</p>
+<p><b>This guide is divided into the following sections:</b> </p>
 <ul>
 <li>
-2LeggedOauth mode: <div class="fragment"><pre class="fragment">        var response = request
-        .SGAP.AdRequest.Send(adRequest,<span class="keyword">true</span>);
-</pre></div> </li>
+<a href="#clients_advertising">Advertising Clients</a>. </li>
 <li>
-3LeggedOauth mode: <div class="fragment"><pre class="fragment">        var response = authenticatedRequest
-        .SGAP.AdRequest.Send(adRequest,<span class="keyword">false</span>);
+<a href="#methods_advertising">Advertising Methods</a>. <ul>
+<li>
+<a href="#advertising_getting">Requesting an Advertising</a>. </li>
+</ul>
+</li>
+</ul>
+<p>&#160;</p>
+<p><a class="anchor" id="clients_advertising"></a> </p>
+<h3><a class="anchor" id="clients_advertising"></a>
+Advertising Clients</h3>
+<p>An Advertising client represents the client side in a classic client-server schema. This object wraps up the underlying REST client side functionality needed to perform requests against a REST server.</p>
+<p>Some applications will only use the Advertising API, which does not need to be given permissions by the final user. <a class="el" href="namespace_bluevia.html">Bluevia</a> supports Oauth authentication without oauth token, which is called 2-legged mode. In this case the client just need the Consumer key and Consumer secret credentials.</p>
+<p><b>Creating an Advertising client:</b> <br/>
+<a class="el" href="class_bluevia_1_1_advertising_1_1_client_1_1_b_v___advertising.html#a4cfb41a5041c0a08f145779c9021b2b2" title="Initializes a new instance of the BV_Advertising. 2 and 3 Legged Constructor.">Bluevia.Advertising.Client.BV_Advertising.BV_Advertising</a> </p>
+<ul>
+<li>
+2Legged Advertising Client: <div class="fragment"><pre class="fragment">        BV_Advertising advertising2LeggedClient = <span class="keyword">new</span> BV_Advertising(<a class="code" href="namespace_bluevia_1_1_core.html#a6d597bbeea6b9b015d7d048b1b998ff7" title="BVMode.">BVMode</a>.MODE, consumerKey, consumerSecret);
+</pre></div>  </li>
+<li>
+3Legged Advertising Client: <div class="fragment"><pre class="fragment">        BV_Advertising advertising3LeggedClient  = <span class="keyword">new</span> BV_Advertising(<a class="code" href="namespace_bluevia_1_1_core.html#a6d597bbeea6b9b015d7d048b1b998ff7" title="BVMode.">BVMode</a>.MODE, consumerKey, consumerSecret, token, tokenSecret);
 </pre></div> </li>
 </ul>
+<p>&#160;</p>
+<p><a class="anchor" id="methods_advertising"></a> </p>
+<h3><a class="anchor" id="methods_advertising"></a>
+Advertising Methods:</h3>
+<p><a class="anchor" id="advertising_getting"></a> <b>Requesting an advertising:</b> </p>
+<p>The <a class="el" href="namespace_bluevia.html">Bluevia</a> Advertising API can provide two different kinds of advertisements: text and images. When retrieving a simple advertisement the user could specify a set of request parameters such as keywords, protection policy, etc. Once you have instantiated a BV_Advertising object, you can start using the GetAdvertising methods. Depending on the authentication you are using (3-legged or 2-legged) you should use one of the two different versions of the function:</p>
+<p>If you want to understand how Retrieving an Advertising works, please read the BlueVia <a href="https://www.bluevia.com/en/page/tech.APIs.AdvertisingAPI">Advertising API guide</a>.</p>
+<ul>
+<li>
+The <b>adSpace</b> (Keyword) parameter (that is the identifier you obtained when you registered your application within the <a class="el" href="namespace_bluevia.html">Bluevia</a> portal). </li>
+<li>
+The <b>country</b> parameter indicates the country where the target user is located. Must follow <a href="http://www.iso.org/iso/country_codes.htm">ISO-3166</a>. </li>
+<li>
+The <b>targetUserId</b> is a string to identify the target user. </li>
+<li>
+The <b>adRequestId</b> an unique id for the request (if it is not set, the SDK will generate it automatically). </li>
+<li>
+The <b>adPresentation</b> parameter is optional. <a class="el" href="namespace_bluevia_1_1_advertising.html#ad614919059b16e1d9bae7f53cca2dcaf" title="It indicates the format of the ad you are requesting.">Bluevia.Advertising.TypeId</a> It specifies what type of advertisement the user wants to retrieve. </li>
+<li>
+The <b>keywords</b> parameter provides the key words the advertisement is related to. This parameter is optional too. Array of strings (keywords). </li>
+<li>
+The <b>protectionPolicy</b> <a class="el" href="namespace_bluevia_1_1_advertising.html#a8b84138e537fd6af8e8bcbf37f98c6ed" title="The protection policy that the retrived advertising must follow.">Bluevia.Advertising.ProtectionPolicy</a> allows an user to apply the desired the adult control policy. <ul>
+<li>
+1: Low, moderately explicit content (I am youth; you can show me moderately explicit content). This is the default value if you don't include this parameter. </li>
+<li>
+2: Safe, not rated content (I am a kid, please, show me only safe content). </li>
+<li>
+3: High, explicit content (I am an adult; I am over 18 so you can show me any content including very explicit content). </li>
+</ul>
+</li>
+<li>
+The <b>userAgent</b> parameter specifies the user agent of the client to show the advertisement. </li>
+</ul>
+<ol>
+<li>
+<p class="startli"><b>Requesting an advertising using a 2 legged client:</b> <br/>
+<a class="el" href="class_bluevia_1_1_advertising_1_1_client_1_1_b_v___advertising.html#a4e5a95aaacc3990c189c1d81233b53c8" title="Requests the retrieving of an advertisement. This function can only be used in 2-legged-mode (To use ...">Bluevia.Advertising.Client.BV_Advertising.GetAdvertising2L</a> </p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                SimpleAdResponse adResponse = advertising2LeggedClient.GetAdvertising2L
+                (
+                        adSpace: <span class="stringliteral">&quot;BV15125&quot;</span>, <span class="comment">//MANDATORY</span>
+                        country: <span class="stringliteral">&quot;UK&quot;</span>, <span class="comment">//MANDATORY</span>
+                        targetUserId: null <span class="comment">//Optional</span>
+                        adRequestId: null, <span class="comment">//Optional</span>
+                        adPresentation: <a class="code" href="namespace_bluevia_1_1_advertising.html#ad614919059b16e1d9bae7f53cca2dcaf" title="It indicates the format of the ad you are requesting.">TypeId</a>.image, <span class="comment">//Optional</span>
+                        keywords: <span class="keyword">new</span> <span class="keywordtype">string</span>[] { <span class="stringliteral">&quot;Bluevia&quot;</span> }, <span class="comment">//Optional</span>
+                        protectionPolicy: <a class="code" href="namespace_bluevia_1_1_advertising.html#a8b84138e537fd6af8e8bcbf37f98c6ed" title="The protection policy that the retrived advertising must follow.">ProtectionPolicy</a>.low, <span class="comment">//Optional</span>
+                        userAgent: <span class="stringliteral">&quot;none&quot;</span> <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div> <p class="endli"></p>
+</li>
+<li>
+<b>Requesting an advertising using a 3 legged client:</b> (Note, that in this case, country is optional, and targetUserId is not available). <br/>
+<a class="el" href="class_bluevia_1_1_advertising_1_1_client_1_1_b_v___advertising.html#a4e5a95aaacc3990c189c1d81233b53c8" title="Requests the retrieving of an advertisement. This function can only be used in 2-legged-mode (To use ...">Bluevia.Advertising.Client.BV_Advertising.GetAdvertising2L</a> <div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                SimpleAdResponse adResponse = advertising3LeggedClient.GetAdvertising3L
+                (
+                        adSpace: <span class="stringliteral">&quot;BV15125&quot;</span>, <span class="comment">//MANDATORY</span>
+                        country: <span class="stringliteral">&quot;UK&quot;</span>, <span class="comment">//Optional</span>
+                        adRequestId: null, <span class="comment">//Optional</span>
+                        adPresentation: <a class="code" href="namespace_bluevia_1_1_advertising.html#ad614919059b16e1d9bae7f53cca2dcaf" title="It indicates the format of the ad you are requesting.">TypeId</a>.image, <span class="comment">//Optional</span>
+                        keywords: <span class="keyword">new</span> <span class="keywordtype">string</span>[] { <span class="stringliteral">&quot;Bluevia&quot;</span> }, <span class="comment">//Optional</span>
+                        protectionPolicy: <a class="code" href="namespace_bluevia_1_1_advertising.html#a8b84138e537fd6af8e8bcbf37f98c6ed" title="The protection policy that the retrived advertising must follow.">ProtectionPolicy</a>.low, <span class="comment">//Optional</span>
+                        userAgent: <span class="stringliteral">&quot;none&quot;</span> <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div>  </li>
+</ol>
+<p><b>Processing the response:</b> <br/>
+<a class="el" href="class_bluevia_1_1_advertising_1_1_schemas_1_1_simple_ad_response.html" title="The advertising retrieved information object.">Bluevia.Advertising.Schemas.SimpleAdResponse</a> The SimpleAdResponse object contains, an Array of CreativeElement, which are the objects that represent the advertisements. The Creative Element stores a string containing the representation of the advertisement (text or an URL of an image); and other string corresponding to the URL for the relative interaction. </p>
+<p>&#160;</p>
 <p><b>Guides:</b> </p>
 <ul>
 <li>
 <a class="el" href="blv_using_bluevia.html">Using Bluevia</a> </li>
 <li>
-<a class="el" href="blv_common.html">Common</a> </li>
+<a class="el" href="blv_authorization.html">Authorization</a> </li>
 <li>
 <a class="el" href="blv_api_oauth.html">Oauth</a> </li>
 <li>
@@ -129,17 +217,12 @@ Methods:</h2>
 </div>
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="footer">Generated on Mon Jan 23 2012 08:36:16 for Bluevia by&#160;
-<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
-    </ul>
-  </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Properties</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Properties</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -148,6 +231,7 @@ Methods:</h2>
 </iframe>
 </div>
 
+<footer>
+Telefonica R&D, Bluevia's SDK Team.
+</footer>
 
-</body>
-</html>

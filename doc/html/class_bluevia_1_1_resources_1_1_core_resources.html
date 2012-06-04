@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Bluevia: Bluevia::Resources::CoreResources Class Reference</title>
+<title>Bluevia .NET SDK: Bluevia.Resources.CoreResources Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,8 +25,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="BlueviaLogo.jpg"></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Bluevia&#160;<span id="projectnumber">1.5</span></div>
+   <div id="projectname">Bluevia .NET SDK&#160;<span id="projectnumber">1.6</span></div>
   </td>
  </tr>
  </tbody>
@@ -36,8 +37,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="dirs.html"><span>Directories</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -58,10 +61,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
-      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
-      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 </div>
@@ -79,35 +82,250 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
 <div id="doc-content">
 <div class="header">
+  <div class="summary">
+<a href="#properties">Properties</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a>  </div>
   <div class="headertitle">
-<h1>Bluevia::Resources::CoreResources Class Reference</h1>  </div>
+<h1>Bluevia.Resources.CoreResources Class Reference</h1>  </div>
 </div>
 <div class="contents">
 <!-- doxytag: class="Bluevia::Resources::CoreResources" -->
-<p>Resource class with fixed type establishment, to look for translated strings, etc.  
+<p>A strongly-typed resource class, for looking up localized strings, etc.  
 <a href="#_details">More...</a></p>
+
+<p><a href="class_bluevia_1_1_resources_1_1_core_resources-members.html">List of all members.</a></p>
 <table class="memberdecls">
+<tr><td colspan="2"><h2><a name="properties"></a>
+Properties</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static internal <br class="typebreak"/>
+global::System.Resources.ResourceManager&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#a8d8c972ec36b768d7e5c746f73135a36">ResourceManager</a><code> [get]</code></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the cached ResourceManager instance used by this class.  <a href="#a8d8c972ec36b768d7e5c746f73135a36"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static internal <br class="typebreak"/>
+global::System.Globalization.CultureInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#aa40980d80d3d6535848f96581c0d03c6">Culture</a><code> [get, set]</code></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Overrides the current thread's CurrentUICulture property for all resource lookups using this strongly typed resource class.  <a href="#aa40980d80d3d6535848f96581c0d03c6"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static internal string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#a8dea7807333b172697105347d036c63f">AtLeastOneAdRequest</a><code> [get]</code></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to It has to be at least one adrequest.  <a href="#a8dea7807333b172697105347d036c63f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static internal string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#a7b7dfcf9123cc91df75e8929d5aa4656">InvalidHttpResponse</a><code> [get]</code></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Invalid Http Response ({0}).  <a href="#a7b7dfcf9123cc91df75e8929d5aa4656"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static internal string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#a8e20e6bda3ee295fac4d90f40d17009a">InvalidNumberOfUserInfoSearchCategories</a><code> [get]</code></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to At least 2 UserInfoSearchCategories should be specified.  <a href="#a8e20e6bda3ee295fac4d90f40d17009a"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static internal string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#a4001dc7ddb1a7dfdedc30198f50ff864">InvalidParseRemoteException</a><code> [get]</code></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Invalid Parse of Remote Exception.  <a href="#a4001dc7ddb1a7dfdedc30198f50ff864"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static internal string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#a1850f17680f36691070e4dccefb3f5fa">OnlyOneAdRequest</a><code> [get]</code></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to It has to be one and only one adrequest.  <a href="#a1850f17680f36691070e4dccefb3f5fa"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static internal string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#ad65b503c3cafbc0b4edaa447c135aecd">OnlyOneMaxAds</a><code> [get]</code></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to It can't be returned more than one ad.  <a href="#ad65b503c3cafbc0b4edaa447c135aecd"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static internal string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#a27c8ad1b8e6144a0f57b9eb661d3c90c">UnknownError</a><code> [get]</code></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Unknown Error - see attached inner exception.  <a href="#a27c8ad1b8e6144a0f57b9eb661d3c90c"></a><br/></td></tr>
+<tr><td colspan="2"><h2><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">internal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#a5f29794dc080f8bd4e90f32a49fa8571">CoreResources</a> ()</td></tr>
+<tr><td colspan="2"><h2><a name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static <br class="typebreak"/>
+global::System.Resources.ResourceManager&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#ae77fc570e90417109697b814ab1553d1">resourceMan</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static <br class="typebreak"/>
+global::System.Globalization.CultureInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#af6fb2a3dbd9d1c02c6e46950e03d08f1">resourceCulture</a></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>Resource class with fixed type establishment, to look for translated strings, etc. </p>
-</div></div>
+<div class="textblock"><p>A strongly-typed resource class, for looking up localized strings, etc. </p>
+</div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a5f29794dc080f8bd4e90f32a49fa8571"></a><!-- doxytag: member="Bluevia::Resources::CoreResources::CoreResources" ref="a5f29794dc080f8bd4e90f32a49fa8571" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">internal Bluevia.Resources.CoreResources.CoreResources </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<hr/><h2>Member Data Documentation</h2>
+<a class="anchor" id="ae77fc570e90417109697b814ab1553d1"></a><!-- doxytag: member="Bluevia::Resources::CoreResources::resourceMan" ref="ae77fc570e90417109697b814ab1553d1" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">global::System.Resources.ResourceManager <a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#ae77fc570e90417109697b814ab1553d1">Bluevia.Resources.CoreResources.resourceMan</a><code> [static, private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="af6fb2a3dbd9d1c02c6e46950e03d08f1"></a><!-- doxytag: member="Bluevia::Resources::CoreResources::resourceCulture" ref="af6fb2a3dbd9d1c02c6e46950e03d08f1" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">global::System.Globalization.CultureInfo <a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html#af6fb2a3dbd9d1c02c6e46950e03d08f1">Bluevia.Resources.CoreResources.resourceCulture</a><code> [static, private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<hr/><h2>Property Documentation</h2>
+<a class="anchor" id="a8d8c972ec36b768d7e5c746f73135a36"></a><!-- doxytag: member="Bluevia::Resources::CoreResources::ResourceManager" ref="a8d8c972ec36b768d7e5c746f73135a36" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">internal global::System.Resources.ResourceManager Bluevia.Resources.CoreResources.ResourceManager<code> [static, get, private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Returns the cached ResourceManager instance used by this class. </p>
+
+</div>
+</div>
+<a class="anchor" id="aa40980d80d3d6535848f96581c0d03c6"></a><!-- doxytag: member="Bluevia::Resources::CoreResources::Culture" ref="aa40980d80d3d6535848f96581c0d03c6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">internal global::System.Globalization.CultureInfo Bluevia.Resources.CoreResources.Culture<code> [static, get, set, private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Overrides the current thread's CurrentUICulture property for all resource lookups using this strongly typed resource class. </p>
+
+</div>
+</div>
+<a class="anchor" id="a8dea7807333b172697105347d036c63f"></a><!-- doxytag: member="Bluevia::Resources::CoreResources::AtLeastOneAdRequest" ref="a8dea7807333b172697105347d036c63f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">internal string Bluevia.Resources.CoreResources.AtLeastOneAdRequest<code> [static, get, private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Looks up a localized string similar to It has to be at least one adrequest. </p>
+
+</div>
+</div>
+<a class="anchor" id="a7b7dfcf9123cc91df75e8929d5aa4656"></a><!-- doxytag: member="Bluevia::Resources::CoreResources::InvalidHttpResponse" ref="a7b7dfcf9123cc91df75e8929d5aa4656" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">internal string Bluevia.Resources.CoreResources.InvalidHttpResponse<code> [static, get, private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Looks up a localized string similar to Invalid Http Response ({0}). </p>
+
+</div>
+</div>
+<a class="anchor" id="a8e20e6bda3ee295fac4d90f40d17009a"></a><!-- doxytag: member="Bluevia::Resources::CoreResources::InvalidNumberOfUserInfoSearchCategories" ref="a8e20e6bda3ee295fac4d90f40d17009a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">internal string Bluevia.Resources.CoreResources.InvalidNumberOfUserInfoSearchCategories<code> [static, get, private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Looks up a localized string similar to At least 2 UserInfoSearchCategories should be specified. </p>
+
+</div>
+</div>
+<a class="anchor" id="a4001dc7ddb1a7dfdedc30198f50ff864"></a><!-- doxytag: member="Bluevia::Resources::CoreResources::InvalidParseRemoteException" ref="a4001dc7ddb1a7dfdedc30198f50ff864" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">internal string Bluevia.Resources.CoreResources.InvalidParseRemoteException<code> [static, get, private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Looks up a localized string similar to Invalid Parse of Remote Exception. </p>
+
+</div>
+</div>
+<a class="anchor" id="a1850f17680f36691070e4dccefb3f5fa"></a><!-- doxytag: member="Bluevia::Resources::CoreResources::OnlyOneAdRequest" ref="a1850f17680f36691070e4dccefb3f5fa" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">internal string Bluevia.Resources.CoreResources.OnlyOneAdRequest<code> [static, get, private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Looks up a localized string similar to It has to be one and only one adrequest. </p>
+
+</div>
+</div>
+<a class="anchor" id="ad65b503c3cafbc0b4edaa447c135aecd"></a><!-- doxytag: member="Bluevia::Resources::CoreResources::OnlyOneMaxAds" ref="ad65b503c3cafbc0b4edaa447c135aecd" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">internal string Bluevia.Resources.CoreResources.OnlyOneMaxAds<code> [static, get, private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Looks up a localized string similar to It can't be returned more than one ad. </p>
+
+</div>
+</div>
+<a class="anchor" id="a27c8ad1b8e6144a0f57b9eb661d3c90c"></a><!-- doxytag: member="Bluevia::Resources::CoreResources::UnknownError" ref="a27c8ad1b8e6144a0f57b9eb661d3c90c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">internal string Bluevia.Resources.CoreResources.UnknownError<code> [static, get, private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Looks up a localized string similar to Unknown Error - see attached inner exception. </p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="_core_resources_8_designer_8cs.html">CoreResources.Designer.cs</a></li>
+</ul>
+</div>
 </div>
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="navelem"><b>Bluevia</b>      </li>
+      <li class="navelem"><a class="el" href="namespace_bluevia.html">Bluevia</a>      </li>
       <li class="navelem"><a class="el" href="namespace_bluevia_1_1_resources.html">Resources</a>      </li>
       <li class="navelem"><a class="el" href="class_bluevia_1_1_resources_1_1_core_resources.html">CoreResources</a>      </li>
-      <li class="footer">Generated on Mon Jan 23 2012 08:36:20 for Bluevia by&#160;
-<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
-    </ul>
-  </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Properties</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Properties</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -116,6 +334,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
+<footer>
+Telefonica R&D, Bluevia's SDK Team.
+</footer>
 
-</body>
-</html>

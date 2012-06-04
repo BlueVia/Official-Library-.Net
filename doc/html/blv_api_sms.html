@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Bluevia: SMS API</title>
+<title>Bluevia .NET SDK: SMS API GUIDE</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,8 +25,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="BlueviaLogo.jpg"></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Bluevia&#160;<span id="projectnumber">1.5</span></div>
+   <div id="projectname">Bluevia .NET SDK&#160;<span id="projectnumber">1.6</span></div>
   </td>
  </tr>
  </tbody>
@@ -36,8 +37,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="dirs.html"><span>Directories</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -72,79 +75,245 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="doc-content">
 <div class="header">
   <div class="headertitle">
-<h1>SMS API </h1>  </div>
+<h1>SMS API GUIDE </h1>  </div>
 </div>
 <div class="contents">
 <div class="textblock"><h2><a class="anchor" id="section_sms"></a>
 SMS:</h2>
 <p><a class="anchor" id="section_sms"></a></p>
-<p><a href="https://bluevia.com/en/knowledge/APIs.API-Guides.SMS" target="_blank">Bluevia's SMS API Guide</a> </p>
-<p>The Bluevia SMS API is a set of functions which allows users to send and receive SMS messages and request the status of those previously sent messages. Also you can subscribe notifications to your own server. </p>
-<p><b>Note that SMS_MO requests are now made by 2leggedOauth mode (not authorized clients)</b></p>
-<h2><a class="anchor" id="objects_sms"></a>
-Objects:</h2>
-<p><a class="anchor" id="objects_sms"></a></p>
+<p>The <a class="el" href="namespace_bluevia.html">Bluevia</a> SMS API is a set of functions which allows users to send and receive SMS messages and request the status of those previously sent messages. Also you can subscribe notifications to your own server to receive both sending status, and SMS. <br/>
+<br/>
+This API is divided in to functional modes: Mobile's terminated mode <b>(MT)</b> which wraps the functions that need a final user's authorization. And Mobile's originated mode <b>(MO)</b> which wraps the functions that only need the API keys. <br/>
+<br/>
+This guide represents a practical introduction to developing applications in which the user wants to provide the <a class="el" href="namespace_bluevia.html">Bluevia</a> SMS functionality. </p>
+<p>If you want to understand how SMS API works please read the BlueVia <a href="https://www.bluevia.com/en/page/tech.APIs.SMSAPI">Bluevia's SMS API guide</a>.</p>
+<p>Don't forget to read the <a class="el" href="blv_authorization.html">authorization guide</a> first.</p>
+<p><b>This guide is divided into the following sections:</b> </p>
 <ul>
 <li>
-<p class="startli">UserIdTypes: </p>
-<p class="endli">Consider that for this api, the UserIdType objects must match the phoneNumber category: </p>
-<div class="fragment"><pre class="fragment">        UserIdType destination = <span class="keyword">new</span> UserIdType { 
-        Item = <span class="stringliteral">&quot;the destination number&quot;</span>, ItemElementName = Bluevia.SMS.Schemas.ItemChoiceType1.phoneNumber };
-</pre></div>  </li>
+<a href="#clients_SMS">SMS Clients</a>. <ul>
 <li>
-Creating a message object: <div class="fragment"><pre class="fragment">        Bluevia.SMS.Schemas.SMSTextType message = <span class="keyword">new</span> Bluevia.MMS.Schemas.MessageType
-        (<span class="keyword">new</span> <span class="keywordtype">string</span>[] {<span class="stringliteral">&quot;Destination 1&quot;</span>, <span class="stringliteral">&quot;Destination 2&quot;</span>...},<span class="stringliteral">&quot;Message text&quot;</span>*optional);
-</pre></div>  </li>
+<a href="#client_SMS_MT">The SMS Mobile terminated(MT) 3legged client</a>. </li>
 <li>
-Creating a MessageNotification object: <div class="fragment"><pre class="fragment">        Bluevia.SMS.Schemas.SMSNotificationType notification = <span class="keyword">new</span> SMS.Schemas.SMSNotificationType()
+<a href="#client_SMS_MO">The SMS Mobile originated(MO) 2legged client</a>. </li>
+</ul>
+</li>
+<li>
+<a href="#methods_SMS">SMS Methods</a>. <ul>
+<li>
+<a href="#methods_SMS_MT">SMS MT Methods</a>. <ul>
+<li>
+<a href="#SMS_MT_sending">Sending a SMS message</a>. </li>
+<li>
+<a href="#SMS_MT_getting_sta">Requesting the status of a previously sent SMS message</a>. </li>
+</ul>
+</li>
+<li>
+<a href="#methods_SMS_MO">SMS MO Methods</a>. <ul>
+<li>
+<a href="#SMS_MO_getting_all">Retrieving SMS messages list</a>. </li>
+<li>
+<a href="#SMS_MO_subscribe">Subscribing notification to receive SMS</a>. </li>
+<li>
+<a href="#SMS_MO_unsubscribe">Unsubscribing notification to stop receiving SMS</a>. </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>&#160;</p>
+<p><a class="anchor" id="clients_SMS"></a> </p>
+<h3><a class="anchor" id="clients_SMS"></a>
+SMS Clients</h3>
+<p>A SMS client represents the client side in a classic client-server schema. This object wraps up the underlying REST client side functionality needed to perform requests against a REST server.</p>
+<p><a class="anchor" id="clients_SMS_MT"></a> </p>
+<h3><a class="anchor" id="clients_SMS_MT"></a>
+SMS MT Client</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_s_m_s_1_1_client_1_1_b_v___m_t_s_m_s.html#a3057eba809a2417fc5f7699de5b5575c" title="Initializes a new instance of the BV_MTSMS.3 Legged Constructor.">Bluevia.Messagery.SMS.Client.BV_MTSMS.BV_MTSMS</a> MT Client: </p>
+<div class="fragment"><pre class="fragment">        BV_MTSMS client = <span class="keyword">new</span> BV_MTSMS(<a class="code" href="namespace_bluevia_1_1_core.html#a6d597bbeea6b9b015d7d048b1b998ff7" title="BVMode.">BVMode</a>.SANDBOX, consumer, ckey, token, secret);
+</pre></div><p><a class="anchor" id="clients_SMS_MO"></a> </p>
+<h3><a class="anchor" id="clients_SMS_MO"></a>
+SMS MO Client</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_s_m_s_1_1_client_1_1_b_v___m_o_s_m_s.html#a2ef081ff528cd1464a4aaef63c64d15c" title="Initializes a new instance of the BV_MOSMS.2 Legged Constructor.">Bluevia.Messagery.SMS.Client.BV_MOSMS.BV_MOSMS</a> MO Client: </p>
+<div class="fragment"><pre class="fragment">        BV_MOSMS clientMO = <span class="keyword">new</span> BV_MOSMS(<a class="code" href="namespace_bluevia_1_1_core.html#a6d597bbeea6b9b015d7d048b1b998ff7" title="BVMode.">BVMode</a>.SANDBOX, consumer, ckey);
+</pre></div> <p>&#160;</p>
+<p><a class="anchor" id="methods_SMS"></a> </p>
+<h3><a class="anchor" id="methods_SMS"></a>
+SMS Methods</h3>
+<p>&#160;</p>
+<p><a class="anchor" id="methods_SMS_MT"></a> </p>
+<h3><a class="anchor" id="methods_SMS_MT"></a>
+SMS MT Methods</h3>
+<p><a class="anchor" id="SMS_MT_sending"></a> </p>
+<h3><a class="anchor" id="SMS_MT_sending"></a>
+Sending a SMS message</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_s_m_s_1_1_client_1_1_b_v___m_t_s_m_s.html#aab29858bb81231d71e05c1544eba18fc" title="Allows to send and SMS to the Bluevia endpoint. And offers to check the delivery status, following a notification strategy.">Bluevia.Messagery.SMS.Client.BV_MTSMS.Send</a> <br/>
+You can send a text message to a destination (if you introduce a phone number) or to a list of destinations (if you introduce an array of phone numbers). The endpoint and correlator optional parameters are included to receive status notifications. This function returns the SMS Id which indentifies that sending operation. This Id is required to retrieve the delivery status of the sent SMS message using a polling method.</p>
+<ul>
+<li>
+<p class="startli"><b>Sending a SMS to a single address, with notification info to receive the sending status in our endpoint:</b> </p>
+<ul>
+<li>
+The <b>destination</b> parameter is a single phone number to which this message is going to b sent. </li>
+<li>
+The <b>text</b> parameter indicating the text of the message. </li>
+<li>
+The <b>endpoint</b> parameter is the URI where your application is expecting to receive the MMS notifications. Note that BlueVia only accepts HTTPS endpoints and the server certificate must be provided during the process of requesting the API key. </li>
+<li>
+The <b>correlator</b> parameter is the application generated identifier for the subscription. This identifier will be included in the received MMS notifications for your application to correlate notifications with subscriptions. </li>
+</ul>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
         {
-        reference = <span class="keyword">new</span> SimpleReferenceType() { correlator = <span class="stringliteral">&quot;A correlator&quot;</span>, endpoint = <span class="stringliteral">&quot;The endpoint&quot;</span> },
-    destinationAddress = <span class="keyword">new</span> UserIdType[] { <span class="keyword">new</span> UserIdType() { Item = <span class="stringliteral">&quot;The short Code&quot;</span>, ItemElementName = <a class="code" href="namespace_bluevia_1_1_location_1_1_schemas.html#af89460bf82133ef2a212e9980e1f2f37">ItemChoiceType1</a>.phoneNumber } },
-    criteria = <span class="stringliteral">&quot;The criteria&quot;</span>
-        };
-</pre></div>  </li>
-</ul>
-<h2><a class="anchor" id="methods_sms"></a>
-Methods</h2>
-<p><a class="anchor" id="methods_sms"></a></p>
+                <span class="keywordtype">string</span> statusId = client.Send
+                (
+                        destination: <span class="stringliteral">&quot;phoneNumber&quot;</span>, <span class="comment">//MANDATORY</span>
+                        text: <span class="stringliteral">&quot;This is a Dummie SMS Subject for SMS_MT&quot;</span>, <span class="comment">//MANDATORY</span>
+                        endpoint: <span class="stringliteral">&quot;https://ourendpoint/statusnotificationservice&quot;</span>, <span class="comment">//Optional</span>
+                        correlator: <span class="stringliteral">&quot;A correlator&quot;</span> <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p> Note that your notification application must reply with a 204 No Content HTTP status and no body. Although your are requesting delivery status notifications, you still are able to use the Location header to ask for delivery status following the polling strategy.</p>
+<p></p>
+<p class="endli"></p>
+</li>
+<li>
+<p class="startli"><b>Sending a SMS to multiple addresses:</b></p>
 <ul>
 <li>
-Sending SMS: <ul>
+The <b>destination</b> parameter is an array of phone numbers to which this message is going to be sent. </li>
 <li>
-First mode: <div class="fragment"><pre class="fragment">                var response = authenticatedRequest
-                .SMS.MessageMT.Send(<span class="keyword">new</span> <span class="keywordtype">string</span>[] {<span class="stringliteral">&quot;Destination 1&quot;</span>,<span class="stringliteral">&quot;Destination 2&quot;</span>...    },<span class="stringliteral">&quot;Message text&quot;</span>);
-</pre></div> </li>
+The <b>text</b> parameter indicating the text of the message. </li>
 <li>
-Second mode: <div class="fragment"><pre class="fragment">                var response = authenticatedRequest
-                .SMS.MessageMT.Send(message);
-</pre></div> </li>
+The <b>endpoint</b> parameter is the URI where your application is expecting to receive the MMS notifications. Note that BlueVia only accepts HTTPS endpoints and the server certificate must be provided during the process of requesting the API key. </li>
+<li>
+The <b>correlator</b> parameter is the application generated identifier for the subscription. This identifier will be included in the received MMS notifications for your application to correlate notifications with subscriptions. </li>
 </ul>
-</li>
-<li>
-Getting Status: <div class="fragment"><pre class="fragment">        var response = authenticatedRequest
-        .SMS.MessageMT.GetStatus(<span class="stringliteral">&quot;messageId&quot;</span>, <span class="stringliteral">&quot;status&quot;</span>*optional);
-</pre></div> </li>
-<li>
-Getting SMS: <div class="fragment"><pre class="fragment">        var response = request
-        .SMS.MessageMO.GetMessages(<span class="stringliteral">&quot;registrarionId&quot;</span>);
-</pre></div> </li>
-<li>
-Subscribe Notifications: <div class="fragment"><pre class="fragment">        var response = request
-        .SMS.NotificationManager.Subscribe(notification);
-</pre></div> </li>
-<li>
-<p class="startli">Unsubscribe Notifications: </p>
-<div class="fragment"><pre class="fragment">        var response = request
-        .SMS.NotificationManager.UnSubscribeNotification(<span class="stringliteral">&quot;notificationId&quot;</span>);
-</pre></div><p class="endli"></p>
-</li>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                <span class="keywordtype">string</span> statusId = client.Send
+                (
+                        destination: <span class="keyword">new</span> <span class="keywordtype">string</span>[] <span class="comment">//MANDATORY</span>
+                        {
+                                <span class="stringliteral">&quot;phoneNumber1&quot;</span>,
+                                <span class="stringliteral">&quot;phoneNumber2&quot;</span>,
+                                <span class="stringliteral">&quot;phoneNumber3&quot;</span>
+                        },
+                        text: <span class="stringliteral">&quot;This is a Dummie SMS Subject for SMS_MT&quot;</span>, <span class="comment">//MANDATORY</span>
+                        endpoint: null, <span class="comment">//Optional</span>
+                        correlator: null <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div>  </li>
 </ul>
+<p>&#160;</p>
+<p><a class="anchor" id="SMS_MT_getting_sta"></a> </p>
+<h3><a class="anchor" id="SMS_MT_getting_sta"></a>
+Requesting the status of a previously sent SMS message</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_s_m_s_1_1_client_1_1_b_v___m_t_s_m_s_client.html#aaf9a03b5acbee0518a2d54f75a7fbf5e" title="Allows to know the delivery status of a previous sent message using Bluevia API.">Bluevia.Messagery.SMS.Client.BV_MTSMS.GetDeliveryStatus</a> <br/>
+Once the SMS message is sent successfully the user may want to know the delivery status of that SMS message. The SMS client allows a user to determine if the SMS message reaches the destination or not. For this matter we use the GetDeliveryStatus function. Just pass the SMS Id (returned by the send function) and retrieve the delivery status of that message, that easy!. </p>
+<ul>
+<li>
+The <b>messageId</b> parameter is the message identifier of the message, wich status we want to know. </li>
+</ul>
+<div class="fragment"><pre class="fragment"><span class="keywordflow">try</span>
+{
+        DeliveryInfo[] deliveryInfos = client.GetDeliveryStatus
+        (
+                messageId: statusId <span class="comment">//MANDATORY</span>
+        );
+}
+<span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p> Possible delivery status are: </p>
+<ul>
+<li>
+DeliveredToNetwork. </li>
+<li>
+DeliveryUncertain. </li>
+<li>
+DeliveryImpossible. </li>
+<li>
+MessageWaiting. </li>
+<li>
+DeliveredToTerminal. </li>
+<li>
+DeliveryNotificationNotSupported. </li>
+</ul>
+<p>&#160;</p>
+<p><a class="anchor" id="methods_SMS_MO"></a> </p>
+<h3><a class="anchor" id="methods_SMS_MO"></a>
+SMS MO Methods</h3>
+<p>&#160;</p>
+<p><a class="anchor" id="SMS_MO_getting_all"></a> </p>
+<h3><a class="anchor" id="SMS_MO_getting_all"></a>
+Retrieving SMS messages list</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_s_m_s_1_1_client_1_1_b_v___m_o_s_m_s_client.html#a45a525f158e2965c1e29984e6aba6fd8" title="Poll for new messages received that fulfil the criteria identified by registrationId.">Bluevia.Messagery.SMS.Client.BV_MOSMS.GetAllMessages</a> <br/>
+Your application can receive SMS from users sent to <a class="el" href="namespace_bluevia.html">Bluevia</a> shortcodes including your application keyword. The parameter registrationId corresponds to the shortcode of the country whose messages are being retrieved. You can check the available shortcodes here. The function signature is: </p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                SMSMessage[] inboxMessages = clientMO.GetAllMessages
+                (
+                        registrationId: <span class="stringliteral">&quot;shortCode&quot;</span>, <span class="comment">//MANDATORY</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p>  <b>Processing the response:</b> <br/>
+<a class="el" href="class_bluevia_1_1_messagery_1_1_s_m_s_1_1_schemas_1_1_s_m_s_message.html" title="This class defines a received answer part of the GetMessages().">Bluevia.Messagery.SMS.Schemas.SMSMessage</a> <br/>
+This function returns an array of SMSMessage, please read the object description to further information. </p>
+<p>&#160;</p>
+<p><a class="anchor" id="SMS_MO_subscribe"></a> </p>
+<h3><a class="anchor" id="SMS_MO_subscribe"></a>
+Subscribing notification to receive SMS</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_s_m_s_1_1_client_1_1_b_v___m_o_s_m_s_client.html#a0ea78283fbd12ab9189736e2d8ba5a69" title="Request to the application to start notifications for a given destination address and criteria...">Bluevia.Messagery.SMS.Client.BV_MOSMS.StartNotification</a> <br/>
+Instead of polling to receive SMSs, you can subscribe an application to receive the SMSs in and endpoint. To do so, you must provide BlueVia with an URI where notifications must be sent.</p>
+<ul>
+<li>
+The <b>phoneNumber</b> parameter is the short number corresponding to the user's country, including the country code. </li>
+<li>
+The <b>endpoint</b> parameter is the URI where your application is expecting to receive the SMS notifications. Note that BlueVia only accepts HTTPS endpoints and the server certificate must be provided during the process of requesting the API key. </li>
+<li>
+The <b>criteria</b> parameter is the keyword you chose for your application when you requested the API key. Note that keywords are case-insensitive. </li>
+<li>
+The <b>correlator</b> parameter is the application generated identifier for the subscription. This identifier will be included in the received MMS notifications for your application to correlate notifications with subscriptions. </li>
+</ul>
+<p>You can use the following code: </p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                <span class="keywordtype">string</span> subscribe = client.StartNotification
+                (
+                        phoneNumber: <span class="stringliteral">&quot;shortCode&quot;</span>, <span class="comment">//MANDATORY</span>
+                        endpoint: <span class="stringliteral">&quot;yourEndpoint&quot;</span>, <span class="comment">//MANDATORY</span>
+                        criteria: <span class="stringliteral">&quot;yourCriteria&quot;</span>, <span class="comment">//MANDATORY</span>
+                        correlator : <span class="stringliteral">&quot;yourCorrelator&quot;</span> <span class="comment">//MANDATORY</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div> <p>&#160;</p>
+<p><a class="anchor" id="SMS_MO_unsubscribe"></a> </p>
+<h3><a class="anchor" id="SMS_MO_unsubscribe"></a>
+Unsubscribing notification to stop receiving SMS</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_s_m_s_1_1_client_1_1_b_v___m_o_s_m_s_client.html#a77eae57f5fba880f345acceafa162963" title="The application may end delivery receipt notification using this operation.">Bluevia.Messagery.SMS.Client.BV_MOSMS.StopNotification</a> </p>
+<ul>
+<li>
+The <b>correlator</b> parameter is the application generated identifier for the subscription. This identifier will be included in the received SMS notifications for your application to correlate notifications with subscriptions. </li>
+</ul>
+<p>To stop receiving SMSs, use: </p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                <span class="keywordtype">bool</span> unsusbscribe = client.StopNotification
+                (
+                        correlator: <span class="stringliteral">&quot;yourCorrelator&quot;</span> <span class="comment">//MANDATORY</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p>&#160;</p>
 <p><b>Guides:</b> </p>
 <ul>
 <li>
 <a class="el" href="blv_using_bluevia.html">Using Bluevia</a> </li>
 <li>
-<a class="el" href="blv_common.html">Common</a> </li>
+<a class="el" href="blv_authorization.html">Authorization</a> </li>
 <li>
 <a class="el" href="blv_api_oauth.html">Oauth</a> </li>
 <li>
@@ -170,17 +339,12 @@ Subscribe Notifications: <div class="fragment"><pre class="fragment">        var
 </div>
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="footer">Generated on Mon Jan 23 2012 08:36:16 for Bluevia by&#160;
-<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
-    </ul>
-  </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Properties</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Properties</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -189,6 +353,7 @@ Subscribe Notifications: <div class="fragment"><pre class="fragment">        var
 </iframe>
 </div>
 
+<footer>
+Telefonica R&D, Bluevia's SDK Team.
+</footer>
 
-</body>
-</html>

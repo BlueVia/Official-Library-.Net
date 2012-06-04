@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- November 25, 2010 -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+			xmlns:tns="http://www.telefonica.com/schemas/UNICA/REST/location/v1/" 
+			xmlns:uctr="http://www.telefonica.com/schemas/UNICA/REST/common/v1"
+			targetNamespace="http://www.telefonica.com/schemas/UNICA/REST/location/v1/" 
+			elementFormDefault="qualified" attributeFormDefault="unqualified">
+	
+	<xsd:import namespace="http://www.telefonica.com/schemas/UNICA/REST/common/v1" schemaLocation="UNICA_API_REST_common_types_v1_0.xsd"/>
+
+
+<xsd:annotation>
+	<xsd:documentation>The following are the resources to be included in HTTP requests or responses</xsd:documentation>
+</xsd:annotation>		
+
+	<xsd:element name="terminalLocation" type="tns:TerminalLocationListType"/>
+	<xsd:element name="terminalDistance" type="tns:TerminalDistanceType"/>
+	<xsd:element name="geographicalNotificationSubscriptions" type="tns:GeographicalNotificationSubscriptionsType"/>
+	<xsd:element name="periodicNotificationSubscriptions" type="tns:PeriodicNotificationSubscriptionsType"/>
+	<xsd:element name="distanceNotificationSubscriptions" type="tns:DistanceNotificationSubscriptionsType"/>
+	<xsd:element name="locationNotification" type="tns:LocationNotificationType"/>
+	<xsd:element name="subscriptionCancellationNotification" type="tns:SubscriptionCancellationNotificationType"/>
+	<xsd:element name="terminalAddress" type="tns:TerminalAddressListType"/>
+	<xsd:element name="terminalDistanceFromAddress" type="tns:TerminalDistanceFromAddressType"/>
+
+	
+<xsd:annotation>
+	<xsd:documentation>The following are the types defined for each used resource</xsd:documentation>
+</xsd:annotation>	
+
+	<xsd:complexType name="TerminalLocationListType">
+		<xsd:sequence>
+			<xsd:element name="terminalLocation" type="tns:LocationDataType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="TerminalDistanceType">
+		<xsd:sequence>
+			<xsd:element name="distance" type="xsd:int"/>
+			<xsd:element name="accuracy" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="timestamp" type="xsd:dateTime" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="GeographicalNotificationSubscriptionsType">
+		<xsd:sequence>
+			<xsd:element name="reference" type="uctr:SimpleReferenceType"/>
+			<xsd:element name="requester" type="uctr:UserIdType" minOccurs="0"/>
+			<xsd:element name="locatedParty" type="uctr:UserIdType" maxOccurs="unbounded"/>
+			<xsd:element name="coordinates" type="tns:CoordinatesType"/>
+			<xsd:element name="radius" type="xsd:float"/>
+			<xsd:element name="trackingAccuracy" type="xsd:float"/>
+			<xsd:element name="enteringLeavingCriteria" type="tns:EnteringLeavingCriteriaType"/>
+			<xsd:element name="checkInmediate" type="xsd:boolean"/>
+			<xsd:element name="frequency" type="tns:TimeMetricType"/>
+			<xsd:element name="duration" type="tns:TimeMetricType" minOccurs="0"/>
+			<xsd:element name="count" type="xsd:int" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PeriodicNotificationSubscriptionsType">
+		<xsd:sequence>
+			<xsd:element name="reference" type="uctr:SimpleReferenceType"/>
+			<xsd:element name="requester" type="uctr:UserIdType" minOccurs="0"/>
+			<xsd:element name="locatedParty" type="uctr:UserIdType" maxOccurs="unbounded"/>
+			<xsd:element name="requestedAccuracy" type="xsd:int"/>
+			<xsd:element name="radius" type="xsd:float"/>
+			<xsd:element name="frequency" type="tns:TimeMetricType"/>
+			<xsd:element name="duration" type="tns:TimeMetricType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DistanceNotificationSubscriptionsType">
+		<xsd:sequence>
+			<xsd:element name="reference" type="uctr:SimpleReferenceType"/>
+			<xsd:element name="requester" type="uctr:UserIdType" minOccurs="0"/>
+			<xsd:element name="referenceAddress" type="uctr:UserIdType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="monitoredAddress" type="uctr:UserIdType" maxOccurs="unbounded"/>
+			<xsd:element name="distance" type="xsd:float"/>
+			<xsd:element name="trackingAccuracy" type="xsd:float"/>
+			<xsd:element name="criteria" type="tns:DistanceCriteriaType"/>
+			<xsd:element name="checkInmediate" type="xsd:boolean"/>
+			<xsd:element name="frequency" type="tns:TimeMetricType"/>
+			<xsd:element name="duration" type="tns:TimeMetricType" minOccurs="0"/>
+			<xsd:element name="count" type="xsd:int" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="LocationNotificationType">
+		<xsd:sequence>
+			<xsd:element name="reference" type="uctr:SimpleReferenceType"/>
+			<xsd:element name="data" type="tns:LocationDataType" maxOccurs="unbounded"/>
+			<xsd:element name="enteringLeavingCriteria" type="tns:EnteringLeavingCriteriaType" minOccurs="0"/>
+			<xsd:element name="distanceCriteria" type="tns:DistanceCriteriaType" minOccurs="0"/>
+			<xsd:element name="isFinalNotification" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="SubscriptionCancellationNotificationType">
+		<xsd:sequence>
+			<xsd:element name="address" type="uctr:UserIdType" minOccurs="0"/>
+			<xsd:element name="reference" type="uctr:SimpleReferenceType"/>
+			<xsd:element name="reason" type="tns:ServiceErrorType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="TerminalAddressListType">
+		<xsd:sequence>
+			<xsd:element name="terminalAddress" type="tns:AddressDataType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="TerminalDistanceFromAddressType">
+		<xsd:sequence>
+			<xsd:element name="distance" type="xsd:int"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+<xsd:annotation>
+	<xsd:documentation>The following are the rest of types used in the API</xsd:documentation>
+</xsd:annotation>
+	
+	<xsd:complexType name="LocationDataType">
+		<xsd:sequence>
+			<xsd:element name="locatedParty" type="uctr:UserIdType"/>
+			<xsd:element name="reportStatus" type="tns:RetrievalStatusType"/>
+			<xsd:element name="currentLocation" type="tns:LocationInfoType" minOccurs="0"/>
+			<xsd:element name="errorInformation" type="tns:ServiceErrorType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	
+	<xsd:simpleType name="RetrievalStatusType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Retrieved" >
+				<xsd:annotation>
+					<xsd:documentation>
+    					Item retrieved successfully
+    				</xsd:documentation>
+				</xsd:annotation>	
+			</xsd:enumeration>	
+			<xsd:enumeration value="NotRetrieved" >
+				<xsd:annotation>
+					<xsd:documentation>
+    					Item not retrieved, Information is not provided (does not indicate an error, no attempt may have been made).
+    				</xsd:documentation>
+				</xsd:annotation>			
+			</xsd:enumeration>
+			<xsd:enumeration value="Error" >
+				<xsd:annotation>
+					<xsd:documentation>
+    					Error retrieving item.
+    				</xsd:documentation>
+				</xsd:annotation>			
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	
+	<xsd:complexType name="LocationInfoType">
+		<xsd:sequence>
+			<xsd:element name="coordinates" type="tns:CoordinatesType"/>
+			<xsd:element name="altitude" type="xsd:float" minOccurs="0"/>
+			<xsd:element name="accuracy" type="xsd:int"/>
+			<xsd:element name="timestamp" type="xsd:dateTime"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ServiceErrorType">
+		<xsd:sequence>
+			<xsd:element name="messageId" type="xsd:string" />
+			<xsd:element name="text" type="xsd:string" />
+			<xsd:element name="variables" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CoordinatesType">
+		<xsd:sequence>
+				<xsd:element name="latitude" type="xsd:float"/>
+				<xsd:element name="longitude" type="xsd:float"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="EnteringLeavingCriteriaType">
+		<xsd:restriction base="xsd:string">	
+			<xsd:enumeration value="Entering" >
+				<xsd:annotation>
+					<xsd:documentation>
+    					Terminal is entering an area
+    				</xsd:documentation>
+				</xsd:annotation>			
+			</xsd:enumeration>
+			<xsd:enumeration value="Leaving" >
+				<xsd:annotation>
+					<xsd:documentation>
+    					Terminal is leaving an area.
+    				</xsd:documentation>
+				</xsd:annotation>			
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="TimeMetricType">
+		<xsd:sequence>
+				<xsd:element name="metric" type="tns:TimeMetricsType"/>
+				<xsd:element name="units" type="xsd:float"/>
+		</xsd:sequence>
+	</xsd:complexType>	
+
+	<xsd:simpleType name="TimeMetricsType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Millisecond" />
+			<xsd:enumeration value="Second" />
+			<xsd:enumeration value="Minute" />
+			<xsd:enumeration value="Hour" />
+			<xsd:enumeration value="Day" />
+			<xsd:enumeration value="Week" />
+			<xsd:enumeration value="Month" />
+			<xsd:enumeration value="Year" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="DistanceCriteriaType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="AllWithinDistance">
+				<xsd:annotation>
+					<xsd:documentation>
+						All monitored devices are within the specified distance.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="AnyWithinDistance">
+				<xsd:annotation>
+					<xsd:documentation>
+						Any of monitored devices gets within the specified distance
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="AllBeyondDistance">
+				<xsd:annotation>
+					<xsd:documentation>
+						All monitored devices are beyond the specified distance
+					</xsd:documentation>
+				</xsd:annotation>
+				</xsd:enumeration>
+				<xsd:enumeration value="AnyBeyondDistance">
+					<xsd:annotation>
+						<xsd:documentation>
+							Any of monitored devices gets beyond the specified distance
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+		
+	<xsd:complexType name="AddressDataType">
+		<xsd:sequence>
+			<xsd:element name="terminalNumber" type="uctr:UserIdType"/>
+			<xsd:element name="currentAddress" type="uctr:AddressType"/>			
+		</xsd:sequence>
+	</xsd:complexType>		
+</xsd:schema>

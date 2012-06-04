@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Bluevia: Getting Started</title>
+<title>Bluevia .NET SDK: Getting Started</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,8 +25,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="BlueviaLogo.jpg"></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Bluevia&#160;<span id="projectnumber">1.5</span></div>
+   <div id="projectname">Bluevia .NET SDK&#160;<span id="projectnumber">1.6</span></div>
   </td>
  </tr>
  </tbody>
@@ -36,8 +37,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="dirs.html"><span>Directories</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -77,9 +80,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><h2><a class="anchor" id="getting_started_sec"></a>
 Getting Started:</h2>
-<p>First of all, you must have properly installed and configured "Microsoft Framework .NET 4" and "Microsoft Visual Studio 2010". To check your application petitions is highly recommended the use of a traffic monitoring tool, as Fiddler2 (<a href="http://www.fiddler2.com/fiddler2/">http://www.fiddler2.com/fiddler2/</a>).</p>
-<p><b>Let's make a little example:</b></p>
-<p>An application which requests an SMS to the Bluevia's server in sandbox mode, and retrieves its Status.</p>
+<h3><a class="anchor" id="enviroment_needed_sec"></a>
+Environment needed:</h3>
+<p>Supported Operating Systems:</p>
+<ul>
+<li>
+Windows XP (32-bit or 64-bit). </li>
+<li>
+Windows Vista (32-bit or 64-bit). </li>
+<li>
+Windows 7 (32-bit or 64-bit). </li>
+</ul>
+<ul>
+<li>
+.NET Framework 4 Client Profile </li>
+<li>
+Microsoft Visual Studio 2010 </li>
+<li>
+Also, to check your application requests is highly recommended the use of a traffic monitoring tool (as Fiddler2) </li>
+</ul>
+<h2><a class="anchor" id="getting_started_library_install"></a>
+Installing the Bluevia library</h2>
+<p>First of all, you must have properly installed and configured <a href="http://www.microsoft.com/en-us/download/details.aspx?id=17851">"Microsoft Framework .NET 4"</a> and <a href="http://www.microsoft.com/visualstudio/en-us">"Microsoft Visual Studio (2010 at least)"</a>.</p>
+<p>To check your application petitions is highly recommended the use of a traffic monitoring tool, as <a href="http://www.fiddler2.com/fiddler2/">Fiddler2</a>.</p>
+<p>Once the environment is installed, download the latest Bluevia's .NET SDK from: <br/>
+<a href="https://github.com/BlueVia/Official-Library-.Net">https://github.com/BlueVia/Official-Library-.Net</a> </p>
+<p>You have to ways of using the <a class="el" href="namespace_bluevia.html">Bluevia</a> .NET SDK: </p>
+<ul>
+<li>
+<p class="startli">By loading the Bluevia.dll in your project. </p>
 <ol>
 <li>
 <p class="startli">Open your VisualStudio 2010, and if you are requested, select the C# configuration.<br/>
@@ -87,303 +116,122 @@ Getting Started:</h2>
 <p class="endli"></p>
 </li>
 <li>
-<p class="startli">Create a new console application: "File/New/Project/"<br/>
-</p>
+<p class="startli">Create a new console application: "File/New/Project/"</p>
 <div align="center">
 <img src="image001.jpg" alt="image001.jpg"/>
 </div>
-<p> <br/>
- </p>
 <ul>
 <li>
-In the Installed Templates be sure "Visual C#" is selected.<br/>
- </li>
+In the Installed Templates be sure "Visual C#" is selected. </li>
 <li>
-".Net Framework 4" at the selector field.<br/>
- </li>
+".Net Framework 4" at the selector field. </li>
 <li>
-And select the "Console Application" option.<br/>
- </li>
+And select the "Console Application" option. </li>
 <li>
-Leave the "Name", "Location" and "Solution Name" as default (ConsoleApplication1).<br/>
- </li>
+Leave the "Name", "Location" and "Solution Name" as default (ConsoleApplication1). </li>
 <li>
-The "Create directory for solution" checkbox checked, and "Add to source control" unchecked.<br/>
- <div align="center">
+The "Create directory for solution" checkbox checked, and "Add to source control" unchecked. </li>
+</ul>
+<div align="center">
 <img src="image002.jpg" alt="image002.jpg"/>
 </div>
- <br/>
- </li>
+ <p class="endli"></p>
+</li>
+<li>
+<p class="startli">Probably, the solution will be configured with the ".NET Framework 4 Client Profile" by default. <br/>
+This was a problem in the old versions of the sdk (they needed the full .NET Framework 4) , but from 1.6, the Client Profile is enough;)</p>
+<p class="endli"></p>
+</li>
+<li>
+<p class="startli">Right now we are ready to add the .NET Bluevia's libraries to our project. </p>
+<ul>
+<li>
+<p class="startli">Right click over "References" in the "Solution Explorer" and select "Add Reference...".</p>
+<div align="center">
+<img src="image006.jpg" alt="image006.jpg"/>
+</div>
+<p class="endli"></p>
+</li>
+<li>
+At the "Browse" label, look for the " /lib" directory, and select "Bluevia.dll" and "Microsoft.Contracts.dll". </li>
+<li>
+<p class="startli">Click "OK".</p>
+<div align="center">
+<img src="image007.jpg" alt="image007.jpg"/>
+</div>
+<p class="endli"></p>
+</li>
+<li>
+Click on the "Refresh Button" at the "Solution Explorer", and save the changes. </li>
 </ul>
 <p class="endli"></p>
 </li>
 <li>
-Probably, the solution will be configured with the ".NET Framework 4 Client Profile" by default. This will make the Solution fail, so lets change it:<br/>
- <ul>
-<li>
-<p class="startli">Right click over the project (ConsoleApplication1) in the "Solution Explorer" and select "Propieties". (If you can't see the "Solution Explorer", open it in "View/Solution Explorer").<br/>
-</p>
-<div align="center">
-<img src="image003.jpg" alt="image003.jpg"/>
-</div>
-<p> <br/>
- </p>
+You are Done!!!, now you can use the Bluevia's functions. </li>
+</ol>
+<p class="endli"></p>
 </li>
 <li>
-In the Application label, select ".NET Framework 4" in the "Target framework:" selector.<br/>
- <div align="center">
-<img src="image004.jpg" alt="image004.jpg"/>
-</div>
- <br/>
- </li>
+Or, By adding your project in the <a class="el" href="namespace_bluevia.html">Bluevia</a> solution: <ol>
 <li>
-Click yes on the dialog box that appears.<br/>
- </li>
-</ul>
-<div align="center">
-<img src="image005.jpg" alt="image005.jpg"/>
-</div>
- <br/>
- </li>
+<p class="startli">Open the <a class="el" href="namespace_bluevia.html">Bluevia</a> solution: double click on "\sdk\Bluevia.sln".</p>
+<p class="endli"></p>
+</li>
 <li>
-<p class="startli">Right now we are ready to add the .NET Bluevia's libraries to our project.<br/>
-</p>
+<p class="startli">Once the solution is opened: you must add your project. <br/>
+Right click on the <a class="el" href="namespace_bluevia.html">Bluevia</a> Solution at the Solution navigator.</p>
+<p><br/>
+Then click Add-&gt; </p>
 <ul>
 <li>
-<p class="startli">Right click over "References" in the "Solution Explorer" and select "Add Reference...".<br/>
-</p>
-<div align="center">
-<img src="image006.jpg" alt="image006.jpg"/>
-</div>
-<p> <br/>
- </p>
-</li>
+Existing Project... <br/>
+And search for your project.  </li>
 <li>
-At the "Browse" label, look for the " /lib" directory, and select "Bluevia.dll" , "DotNetOpenAuth.dll" and "Microsoft.Contracts.dll".<br/>
- </li>
-<li>
-<p class="startli">Click "OK".<br/>
-</p>
-<div align="center">
-<img src="image007.jpg" alt="image007.jpg"/>
-</div>
-<p> <br/>
- </p>
-</li>
-<li>
-Click on the "Refresh Button" at the "Solution Explorer", and save the changes. <br/>
- </li>
+Or a New Project... <br/>
+Create it as in the second step of the first mode..  </li>
 </ul>
+<p class="endli"></p>
+</li>
+<li>
+<p class="startli">Once the Project is added to the solution, you can add the functional libraries as in the fourth step of the previous mode.</p>
+<p class="endli"></p>
 </li>
 </ol>
-<h2><a class="anchor" id="getting_started_code"></a>
-getting_started_code</h2>
-<p>Open "Programs.cs" in the "Solution Explorer", and paste the code that comes in sdk.net112.cs: <br/>
-</p>
-<div class="fragment"><pre class="fragment"><span class="keyword">using</span> System;
-<span class="keyword">using</span> System.Text;
-<span class="keyword">using</span> System.Collections.Generic;
-<span class="keyword">using</span> System.Linq;
-<span class="keyword">using</span> Bluevia.Core;
-<span class="keyword">using</span> Bluevia.OAuth;
-<span class="keyword">using</span> Bluevia.SMS.Schemas;
-<span class="keyword">using</span> Bluevia.Core.Schemas;
-
-<span class="keyword">namespace </span>Example
-{
-    <span class="keyword">class </span>Program
-    {
-        <span class="keyword">static</span> <span class="keywordtype">void</span> Main(<span class="keywordtype">string</span>[] args)
-        {
-
-            String consumer;
-            String consumerSecret;
-            Bluevia.Core.Schemas.OAuthToken oauthToken; <span class="comment">//Object that contains a pair of tokens.</span>
-            Bluevia.OAuth.Schemas.RequestToken requestToken; <span class="comment">//Object that contains a pair of tokens.</span>
-            SMSDeliveryStatusType status; <span class="comment">//Object that contains a SMS status object.</span>
-            String accessToken;
-            String tokenSecret;
-            BlueviaClient client; <span class="comment">//The BlueVia Client.</span>
-
-            Console.WriteLine(<span class="stringliteral">&quot;This is a Console application using Bluevia:\n&quot;</span>);
-            Console.WriteLine(<span class="stringliteral">&quot;Press any key to continue.\n&quot;</span>);
-            Console.ReadKey();
-
-            <span class="comment">/*</span>
-<span class="comment"> Setting your data:</span>
-<span class="comment">             */</span>
-            Console.WriteLine(<span class="stringliteral">&quot;Type your consumer key.\n&quot;</span>);
-            consumer = Console.ReadLine();
-
-
-            Console.WriteLine(<span class="stringliteral">&quot;Type your consumer Secret.\n&quot;</span>);
-            consumerSecret = Console.ReadLine();
-
-
-            Bluevia.Core.Configuration.Client.setConsumer(consumer);
-            Bluevia.Core.Configuration.Client.setConsumerSecret(consumerSecret);
-            <span class="comment">//Changing mode to Sandbox</span>
-            Bluevia.Core.Configuration.Client.setEnvironment(Bluevia.Core.Configuration.ENVIRONMENT.SANDBOX);
-
-            <span class="comment">/*</span>
-<span class="comment"> Creating the BlueVia Client:</span>
-<span class="comment">             */</span>
-            Console.WriteLine(<span class="stringliteral">&quot;A BlueviaClient is going to be instancied.\n&quot;</span>);
-            Console.WriteLine(<span class="stringliteral">&quot;Press any key to continue.\n&quot;</span>);
-            Console.ReadKey();
-
-            client = <span class="keyword">new</span> BlueviaClient();
-
-            <span class="comment">/*</span>
-<span class="comment"> Begining with the oauth process to register a new application:</span>
-<span class="comment">             */</span>
-
-            <span class="comment">//Step 1: Obtaining a pair of RequestTokens to register the application:</span>
-            Console.WriteLine(<span class="stringliteral">&quot;New pair of RequestTokens are going to be requested. The pinCode will be given during authorise process .\n&quot;</span>);
-            Console.WriteLine(<span class="stringliteral">&quot;Press any key to continue.\n&quot;</span>);
-            Console.ReadKey();
-            <span class="keywordflow">try</span>
-            {
-                requestToken = client
-                    .CreateRequest()
-                    .OAuth.RequestToken.Get();
-
-                accessToken = requestToken.Token;
-                tokenSecret = requestToken.TokenSecret;
-
-                <span class="comment">/*Storing the Request pair of tokens for the Acces authentication*/</span>
-                Bluevia.Core.Configuration.Client.setTokenPair(accessToken, tokenSecret);
-
-                <span class="comment">//Setp 2: Obtaining a verification code to request the AccessTokens:</span>
-                Console.WriteLine(<span class="stringliteral">&quot;Now we have the request tokens:\n&quot;</span>);
-                Console.WriteLine(<span class="stringliteral">&quot;Token: &quot;</span> + accessToken + <span class="stringliteral">&quot;\n&quot;</span>);
-                Console.WriteLine(<span class="stringliteral">&quot;Token secret: &quot;</span> + tokenSecret + <span class="stringliteral">&quot;\n&quot;</span>);
-                Console.WriteLine(<span class="stringliteral">&quot;Please type in your navigator:&quot;</span> + requestToken.AuthoriseUrl + <span class="stringliteral">&quot;\n&quot;</span>);
-                Console.WriteLine(<span class="stringliteral">&quot;Accept conditions and type the pin or verification code you have been given.\n&quot;</span>);
-                Console.WriteLine(<span class="stringliteral">&quot;Verification code:\n&quot;</span>);
-                var verification = Console.ReadLine();
-
-                <span class="comment">//Setp 3: Obtaining the AccessTokens:</span>
-                Console.WriteLine(<span class="stringliteral">&quot;Now we can request the AccessTokens for the SMS API.\n&quot;</span>);
-                Console.WriteLine(<span class="stringliteral">&quot;Press any key to continue.\n&quot;</span>);
-                Console.ReadKey();
-
-                oauthToken = client
-                    .CreateRequest()
-                    .AuthenticateClient()
-                    .OAuth.AccessToken.Get(requestToken, verification);
-
-                accessToken = oauthToken.Token;
-                tokenSecret = oauthToken.TokenSecret;
-
-                <span class="comment">/*Storing the New pair of tokens for our application*/</span>
-                Bluevia.Core.Configuration.Client.setTokenPair(accessToken, tokenSecret);
-
-                <span class="comment">/*</span>
-<span class="comment"> Making a new petition to the servers, this time, we are going to send a SMS:</span>
-<span class="comment">                 */</span>
-                Console.WriteLine(<span class="stringliteral">&quot;The AccessTokens are stored, now we are going to send a SMS.\n&quot;</span>);
-                Console.WriteLine(<span class="stringliteral">&quot;Press any key to continue.\n&quot;</span>);
-                Console.ReadKey();
-
-                Console.WriteLine(<span class="stringliteral">&quot;Write a Phone number:\n&quot;</span>);
-                String DestinationNumber = Console.ReadLine();
-
-                Console.WriteLine(<span class="stringliteral">&quot;Write a Message:\n&quot;</span>);
-                String Message = Console.ReadLine();
-
-                var smsResponse = client
-                    .CreateRequest()
-                    .AuthenticateClient()
-                    .SMS.MessageMT.Send(
-                        <span class="keyword">new</span> <span class="keywordtype">string</span>[] { DestinationNumber },<span class="comment">//Type a destination number here</span>
-                        Message);
-
-                <span class="comment">/*</span>
-<span class="comment"> Retrieving the delivery status of the sms:</span>
-<span class="comment">                 */</span>
-                Console.WriteLine(<span class="stringliteral">&quot;The SMS is sended, lets get the delivery status.\n&quot;</span>);
-                Console.WriteLine(<span class="stringliteral">&quot;Press any key to continue.\n&quot;</span>);
-                Console.ReadKey();
-
-                var statusResponse = client
-                    .CreateRequest()
-                    .AuthenticateClient()
-                    .SMS.MessageMT.GetStatus(smsResponse);
-
-                status = statusResponse;
-
-                Console.WriteLine(<span class="stringliteral">&quot;The Status is:\n&quot;</span>);
-                Console.WriteLine(status.smsDeliveryStatus + <span class="stringliteral">&quot;\n&quot;</span>);
-                Console.WriteLine(<span class="stringliteral">&quot;Press any key to finish.\n&quot;</span>);
-                Console.ReadKey();
-            }
-            <span class="comment">//This &quot;catch&quot; manages the exception, when an error is returned by Bluevia services Server</span>
-            <span class="keywordflow">catch</span> (RestClientException e)
-            {
-                <span class="comment">//If the error is from a malformed petition (code 4xx)</span>
-                <span class="keywordflow">if</span> (e.ClientException != null)
-                {
-                    Console.WriteLine(<span class="stringliteral">&quot;The error message, from the server is: &quot;</span> + e.ClientException.text);
-                }
-                <span class="comment">//If the error is from internal server error (code 5xx)</span>
-                <span class="keywordflow">else</span>
-                {
-                    Console.WriteLine(<span class="stringliteral">&quot;The error message, from the server is: &quot;</span> + e.ServerException.text);
-                }
-                Console.WriteLine(<span class="stringliteral">&quot;Press any key to finish.\n&quot;</span>);
-                Console.ReadKey();
-
-            }
-            <span class="keywordflow">catch</span> (Exception e)
-            {
-                Console.WriteLine(<span class="stringliteral">&quot;ERROR: &quot;</span> + e + <span class="stringliteral">&quot;\n&quot;</span>);
-                Console.WriteLine(<span class="stringliteral">&quot;Press any key to finish.\n&quot;</span>);
-                Console.ReadKey();
-            }
-        }
-    }
-}
-</pre></div><p>Now, you can save the program, and build it.<br/>
-</p>
+</li>
+</ul>
+<p>To test your program:</p>
+<p>Save the program, and build it:</p>
 <div align="center">
 <img src="image008.jpg" alt="image008.jpg"/>
 </div>
-<p> <br/>
-</p>
-<p>Then, you can try the program, start Debugging(F5).<br/>
-</p>
+<p>Then, you can try the program, start Debugging(F5):</p>
 <div align="center">
 <img src="image009.jpg" alt="image009.jpg"/>
 </div>
-<p> <br/>
-</p>
-<p>You can debug step by step, by adding breaking points doubleclicking at the left side of the codeline. And go on them by "Step Into" button. (F11)<br/>
-</p>
+<p>You can debug step by step, by adding breaking points doubleclicking at the left side of the codeline. And go on them by "Step Into" button. (F11):</p>
 <div align="center">
 <img src="image010.jpg" alt="image010.jpg"/>
 </div>
-<p> <br/>
-</p>
+<p><b>You can find a set of complete sample apps on this repository:</b></p>
+<p><a href="https://github.com/BlueVia/Official-Library-.Net/tree/master/samples">https://github.com/BlueVia/Official-Library-.Net/tree/master/samples</a> </p>
 <h2><a class="anchor" id="getting_started_fiddler"></a>
-getting_started_fiddler</h2>
-<p>You can inspect your application petitions and server responses with fiddler (In this example an incorrect sms petition).<br/>
-</p>
+Fiddler</h2>
+<p><br/>
+You can inspect your application petitions and server responses with fiddler.<br/>
+ <br/>
+Be sure to check the Decrypt HTTPS traffic option at: "Tools/Fiddler Options..." </p>
 <div align="center">
-<img src="image011.jpg" alt="image011.jpg"/>
+<img src="fidd01.jpg" alt="fidd01.jpg"/>
 </div>
-<p> <br/>
-</p>
-<ul>
-</ul>
-<p>sure to check the Decrypt HTTPS traffic option at: "Tools/Fiddler Options..."<br/>
-</p>
+ <div align="center">
+<img src="fidd02.jpg" alt="fidd02.jpg"/>
+</div>
 <p><b>Guides:</b> </p>
 <ul>
 <li>
 <a class="el" href="blv_using_bluevia.html">Using Bluevia</a> </li>
 <li>
-<a class="el" href="blv_common.html">Common</a> </li>
+<a class="el" href="blv_authorization.html">Authorization</a> </li>
 <li>
 <a class="el" href="blv_api_oauth.html">Oauth</a> </li>
 <li>
@@ -409,17 +257,12 @@ getting_started_fiddler</h2>
 </div>
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="footer">Generated on Mon Jan 23 2012 08:36:16 for Bluevia by&#160;
-<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
-    </ul>
-  </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Properties</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Properties</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -428,6 +271,7 @@ getting_started_fiddler</h2>
 </iframe>
 </div>
 
+<footer>
+Telefonica R&D, Bluevia's SDK Team.
+</footer>
 
-</body>
-</html>

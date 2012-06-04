@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Bluevia: OAUTH API</title>
+<title>Bluevia .NET SDK: OAUTH API GUIDE</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,8 +25,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="BlueviaLogo.jpg"></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Bluevia&#160;<span id="projectnumber">1.5</span></div>
+   <div id="projectname">Bluevia .NET SDK&#160;<span id="projectnumber">1.6</span></div>
   </td>
  </tr>
  </tbody>
@@ -36,8 +37,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="dirs.html"><span>Directories</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -72,67 +75,107 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="doc-content">
 <div class="header">
   <div class="headertitle">
-<h1>OAUTH API </h1>  </div>
+<h1>OAUTH API GUIDE </h1>  </div>
 </div>
 <div class="contents">
-<div class="textblock"><h2><a class="anchor" id="section_oauth"></a>
+<div class="textblock"><p><a class="anchor" id="section_oauth"></a> </p>
+<h2><a class="anchor" id="section_oauth"></a>
 OAUTH:</h2>
-<p><a class="anchor" id="section_oauth"></a></p>
-<p><a href="https://bluevia.com/en/knowledge/APIs.API-Guides.OAuth" target="_blank">Bluevia's Oauth API Guide</a></p>
-<h2><a class="anchor" id="objects_oauth"></a>
-Objects:</h2>
-<p><a class="anchor" id="objects_oauth"></a> Create OAuth Token pair: </p>
-<div class="fragment"><pre class="fragment">        Bluevia.Core.Schemas.OAuthToken OAuthToken = <span class="keyword">new</span> Bluevia.Core.Schemas.OAuthToken(<span class="stringliteral">&quot;accessToken&quot;</span>,<span class="stringliteral">&quot;accessTokenSecret&quot;</span>);
-</pre></div><h2><a class="anchor" id="methods_oauth"></a>
-Methods:</h2>
-<p><a class="anchor" id="methods_oauth"></a> Requesting valid tokens for the application:</p>
-<p><b>First Step:</b> </p>
-<div class="fragment"><pre class="fragment">        var getRequest = request
-        .OAuth.RequestToken.Get(callbackUrl: <span class="stringliteral">&quot;callbackUrl&quot;</span>*optional);
-</pre></div><p>Note that the callBackUrl is an optional value, you can set it to null, empty, or not passed, if your application is not able to recieve request from BlueVia. Typically websites set a callBackURL and desktop or mobile applications don't. Both requestToken and requestToken_secret must be saved in your application because oAuth process will require it later. </p>
-<div class="fragment"><pre class="fragment">        Bluevia.Core.Configuration.Client.setTokenPair(getRequest.Token,getRequest.TokenSecret);
-        or
-        Bluevia.Core.BlueviaConsumer.TokenManager.StoreNewRequestToken(getRequest);
-</pre></div><p>  <br/>
-</p>
-<p><b>Second Step:</b> <br/>
-<br/>
- As explained in: <a href="https://bluevia.com/en/knowledge/APIs.API-Guides.OAuth" target="_blank">https://bluevia.com/en/knowledge/APIs.API-Guides.OAuth</a> there are two ways to receive the verification code: To get user authorization using the oauth_token from your request token (only for "OutOfBand" and "WebOauth" modes), you have to take the user to BlueVia Connect including your oauth_token as a request parameter. The "AuthoriseUrl" field from the "first step response", will contain the url where redirect the user. </p>
+<p>The <a class="el" href="namespace_bluevia.html">Bluevia</a> OAuth API is a set of functions which allows applications to retrieve, request and access tokens to complete the OAuth authentication protocol, necessary to be able to get and send data to <a class="el" href="namespace_bluevia.html">Bluevia</a> APIs. This guide represents a practical introduction to include the OAuth protocol in <a class="el" href="namespace_bluevia.html">Bluevia</a> applications.</p>
+<p>If you want to understand how OAuth API works please read the BlueVia <a href="https://www.bluevia.com/en/page/tech.APIs.OauthAPI">Bluevia's OAuth API guide</a>.</p>
+<p>Don't forget to read the <a class="el" href="blv_authorization.html">authorization guide</a> first.</p>
+<p><b>This guide is divided into the following sections:</b> </p>
 <ul>
 <li>
-<p class="startli">OutOfBand authorization:</p>
-<p class="endli">Callback parameter is "oob" or it's not defined (as shown below). You have to ask the user to enter the PIN code (oauth_verifier) in your app. Note that your users will need to copy and paste the PIN code manually, so be clear when you request it to be sure they do not get confused. </p>
-<div class="fragment"><pre class="fragment">                var getRequest = request
-                        .OAuth.RequestToken.Get();
-</pre></div>  </li>
+<a href="#clients_oauth">Oauth Client</a>. </li>
 <li>
-<p class="startli">WebOauth authorization:</p>
-<p class="endli">Callback parameter is a defined callback URL. You will receive the oauth_verifier as a request parameter at your callback. </p>
-<div class="fragment"><pre class="fragment">                var getRequest = request
-                        .OAuth.RequestToken.Get(callbackUrl:<span class="stringliteral">&quot;callbackUrl&quot;</span>);
-</pre></div>  </li>
+<a href="#methods_oauth">Oauth Methods</a>. <ul>
 <li>
-<p class="startli">SMSOauth authorization:</p>
-<p class="endli">Finally Bluevia supports a variation of OAuth process where the user is not using the browser to authorize the application. Instead he will receive an SMS containing he PIN code (oauth_verifier). To use this SMS handshake, getRequestToken request must pass the user's MSISDN (phone number) in callback parameter. After the user had received the PIN code, the application should allow him to enter it and request the access token. </p>
-<div class="fragment"><pre class="fragment">                var getRequest = request
-                        .OAuth.RequestToken.Get(callbackUrl:<span class="stringliteral">&quot;your_MSISDN&quot;</span>);
+<a href="#oauth_requesting_req">Requesting Request Tokens</a>. </li>
+<li>
+<a href="#oauth_requesting_acc">Requesting Access Tokens</a>. </li>
+</ul>
+</li>
+</ul>
+<p>&#160;</p>
+<p><a class="anchor" id="clients_oauth"></a> </p>
+<h3><a class="anchor" id="clients_oauth"></a>
+OAuth Client:</h3>
+<p>An OAuth client represents the client side in a classic client-server schema. This object wraps up the underlying REST client side functionality needed to perform requests against a REST server.</p>
+<p><b>Creating an OAuth client:</b> <br/>
+<a class="el" href="class_bluevia_1_1_o_auth_1_1_client_1_1_b_v___o_auth.html#a6e11cd552ae929d3e527b376d170efc9" title="Initializes a new instance of the BV_OAuth.2 and 3 Legged Constructor.">Bluevia.OAuth.Client.BV_OAuth.BV_OAuth</a> </p>
+<ul>
+<li>
+OAuth Client: <div class="fragment"><pre class="fragment">        BV_OAuth client = <span class="keyword">new</span> BV_OAuth(<a class="code" href="namespace_bluevia_1_1_core.html#a6d597bbeea6b9b015d7d048b1b998ff7" title="BVMode.">BVMode</a>.MODE, ConsumerKey, ConsumerSecret);
 </pre></div>  </li>
 </ul>
-<p><b>Third Step:</b> <br/>
-<br/>
- With the obtained PIN code (oauth_verifier), you can now get the accessToken from the user as follows: </p>
-<div class="fragment"><pre class="fragment">        var access = authenticatedRequest
-        .OAuth.AccessToken.Get(getRequest, <span class="stringliteral">&quot;Verification_Code&quot;</span>);
-</pre></div><p>And you should store it into the session by the following methods: </p>
-<div class="fragment"><pre class="fragment">        Bluevia.Core.Configuration.Client.setTokenPair(access.Token,access.TokenSecret);
-        or
-        Bluevia.Core.BlueviaConsumer.TokenManager.StoreNewRequestToken(access);
-</pre></div> <p><b>Guides:</b> </p>
+<p>&#160;</p>
+<p><a class="anchor" id="methods_oauth"></a> </p>
+<h2><a class="anchor" id="methods_oauth"></a>
+Methods:</h2>
+<p><a class="anchor" id="oauth_requesting_req"></a> <b>Requesting Request Tokens:</b> </p>
+<ul>
+<li>
+The <b>callback</b> parameter indicates bluevia how the verification code must be offered to the customer (oob, url, or MSISDN). </li>
+</ul>
+<ol>
+<li>
+<p class="startli"><b>Requesting Request Tokens, for OutOfBand or WebOauth verification:</b> <br/>
+<a class="el" href="class_bluevia_1_1_o_auth_1_1_client_1_1_b_v___o_auth_client.html#abc24604f17162f16fe7c5b2dfc77fa18" title="Gets the Request Token.">Bluevia.OAuth.Client.BV_OAuthClient.GetRequestToken</a> </p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                RequestToken requestToken = client.GetRequestToken
+                (
+                        callback: <span class="stringliteral">&quot;oob&quot;</span> <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div> <p class="endli"></p>
+</li>
+<li>
+<b>Requesting Request Tokens, for SMS verification:</b> <br/>
+<a class="el" href="class_bluevia_1_1_o_auth_1_1_client_1_1_b_v___o_auth_client.html#a994504debfd0951ed02837dd33b65b2e" title="Gets the Request Token, by SMS Handshake: the final user is not using a browser, and therefore the se...">Bluevia.OAuth.Client.BV_OAuthClient.GetRequestTokenSMSHandshake</a> <div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                RequestToken requestToken = client.GetRequestTokenSMSHandshake
+                (
+                        callback: <span class="stringliteral">&quot;phoneNumber&quot;</span> <span class="comment">//MANDATORY</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div>   </li>
+</ol>
+<p><b>Processing the response:</b> <br/>
+<a class="el" href="class_bluevia_1_1_core_1_1_schemas_1_1_request_token.html" title="A data class representing request token returned during an OAuth session.">Bluevia.Core.Schemas.RequestToken</a> <br/>
+The requestToken contains: requestToken key and secret, to use them to retrieve the access token, and a url to complete the user authorization proccess, and get the verification Code.</p>
+<p><a class="anchor" id="oauth_requesting_acc"></a> <b>Requesting Access Tokens:</b> <br/>
+<a class="el" href="class_bluevia_1_1_o_auth_1_1_client_1_1_b_v___o_auth_client.html#aaedce12c95f13cc6d5449a200ef039f5" title="Gets the Access Token.">Bluevia.OAuth.Client.BV_OAuthClient.GetAccessToken</a> </p>
+<ul>
+<li>
+The <b>oauthVerifier</b> parameter indicates bluevia how the verification code must be offered to the customer.  </li>
+<li>
+The <b>requestToken</b> parameter refer to the requestToken Key previously retrieved by the getRequestToken method.  </li>
+<li>
+The <b>requestSecret</b> parameter refer to the requestToken Secret previously retrieved by the getRequestToken method.  </li>
+</ul>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                Token accessToken = client.GetAccessToken
+                (
+                        oauthVerifier:verification, <span class="comment">//MANDATORY</span>
+                        requestToken:null, <span class="comment">//Optional </span>
+                        requestSecret:null <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p><b>Processing the response:</b> <br/>
+<a class="el" href="class_bluevia_1_1_core_1_1_schemas_1_1_token.html" title="A data class representing an access token returned during an OAuth session.">Bluevia.Core.Schemas.Token</a> <br/>
+The accessToken contains: accessToken key and secret, to use them to authenticate the clients in behalf the final user. </p>
+<p><b>Guides:</b> </p>
 <ul>
 <li>
 <a class="el" href="blv_using_bluevia.html">Using Bluevia</a> </li>
 <li>
-<a class="el" href="blv_common.html">Common</a> </li>
+<a class="el" href="blv_authorization.html">Authorization</a> </li>
 <li>
 <a class="el" href="blv_api_oauth.html">Oauth</a> </li>
 <li>
@@ -158,17 +201,12 @@ Methods:</h2>
 </div>
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="footer">Generated on Mon Jan 23 2012 08:36:16 for Bluevia by&#160;
-<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
-    </ul>
-  </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Properties</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Properties</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -177,6 +215,7 @@ Methods:</h2>
 </iframe>
 </div>
 
+<footer>
+Telefonica R&D, Bluevia's SDK Team.
+</footer>
 
-</body>
-</html>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Bluevia: LOCATION API</title>
+<title>Bluevia .NET SDK: LOCATION API GUIDE</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,8 +25,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="BlueviaLogo.jpg"></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Bluevia&#160;<span id="projectnumber">1.5</span></div>
+   <div id="projectname">Bluevia .NET SDK&#160;<span id="projectnumber">1.6</span></div>
   </td>
  </tr>
  </tbody>
@@ -36,8 +37,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="dirs.html"><span>Directories</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -72,37 +75,70 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="doc-content">
 <div class="header">
   <div class="headertitle">
-<h1>LOCATION API </h1>  </div>
+<h1>LOCATION API GUIDE </h1>  </div>
 </div>
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="section_location"></a> </p>
 <h2><a class="anchor" id="section_location"></a>
 LOCATION:</h2>
-<p><a href="https://bluevia.com/en/knowledge/APIs.API-Guides.Location" target="_blank">Bluevia's Location API Guide</a> The Bluevia Location API provides access not just to the geographical coordinates of a terminal where Location is expressed through a latitude, longitude, and accuracy. The operations cover the requesting for the location of a terminal or a group of terminals.</p>
-<h2><a class="anchor" id="objects_location"></a>
-Objects:</h2>
-<p><a class="anchor" id="objects_location"></a> </p>
+<p>The <a class="el" href="namespace_bluevia.html">Bluevia</a> Location API provides access to the geographical coordinates of a terminal where Location is expressed through a latitude, longitude, and accuracy. The operations cover the requesting for the location of a terminal or a group of terminals. <br/>
+This guide represents a practical introduction to developing applications in which the user wants to provide the <a class="el" href="namespace_bluevia.html">Bluevia</a> Location functionality. </p>
+<p>If you want to understand how Location API works please read the BlueVia <a href="https://www.bluevia.com/en/page/tech.APIs.LocationAPI">Bluevia's Location API guide</a>.</p>
+<p>Don't forget to read the <a class="el" href="blv_authorization.html">authorization guide</a> first.</p>
+<p><b>This guide is divided into the following sections:</b> </p>
 <ul>
 <li>
-Creating a TerminalLocationRequestParams object: <div class="fragment"><pre class="fragment">        Bluevia.Location.Schemas.TerminalLocationParams tlp = <span class="keyword">new</span> TerminalLocationParams();
-        tlp.AcceptableAccuracy = “Acceptable Accuracy”;*optional
-</pre></div> </li>
+<a href="#clients_location">Location Client</a>. </li>
+<li>
+<a href="#methods_location">Location Methods</a>. <ul>
+<li>
+<a href="#location_getting">Retrieving Geographical coordinates of a terminal</a>. </li>
 </ul>
-<h2><a class="anchor" id="methods_location"></a>
-Methods:</h2>
+</li>
+</ul>
+<p>&#160;</p>
+<p><a class="anchor" id="clients_location"></a> </p>
+<h3><a class="anchor" id="clients_location"></a>
+Location Client</h3>
+<p>A Location client represents the client side in a classic client-server schema. This object wraps up the underlying REST client side functionality needed to perform requests against a REST server.</p>
+<p><b>Creating a Location client:</b> <br/>
+<a class="el" href="class_bluevia_1_1_location_1_1_client_1_1_b_v___location.html#acab591478611f13e82b363ab6afe18d9" title="Initializes a new instance of the BV_Location.3 Legged Constructor.">Bluevia.Location.Client.BV_Location.BV_Location</a> </p>
+<ul>
+<li>
+Location Client: <div class="fragment"><pre class="fragment">        BV_Location locationClient = <span class="keyword">new</span> BV_Location(<a class="code" href="namespace_bluevia_1_1_core.html#a6d597bbeea6b9b015d7d048b1b998ff7" title="BVMode.">BVMode</a>.MODE, consumerKey, consumerSecret, token, tokenSecret);
+</pre></div>  </li>
+</ul>
+<p>&#160;</p>
 <p><a class="anchor" id="methods_location"></a> </p>
+<h3><a class="anchor" id="methods_location"></a>
+Location Methods:</h3>
+<p><a class="anchor" id="location_getting"></a> <b>Retrieving Geographical coordinates of a terminal:</b></p>
+<p>The getLocation function allows an user to retrieve the geographical coordinates of a terminal. These geographical coordinates are expressed through a latitude, longitude, altitude and accuracy.</p>
+<p>If you want to understand how Retrieving the Geographical coordinates works, please read the BlueVia <a href="https://www.bluevia.com/en/page/tech.APIs.LocationAPI">Location API guide</a>.</p>
 <ul>
 <li>
-Getting Location Info: <div class="fragment"><pre class="fragment">        var response = authenticatedRequest
-        .Location.TerminalLocation.GetLocation(tlp);
-</pre></div> </li>
+The <b>accuracy</b> parameter expresses the range in meters that the application considers useful. If the location cannot be determined within this range, then the application would prefer not to receive the information. </li>
 </ul>
+<p><b>Retrieving Geographical coordinates of a terminal:</b> <br/>
+<a class="el" href="class_bluevia_1_1_location_1_1_client_1_1_b_v___location.html#afd6d00848a37ed1b5edd61e7b09f9d8c" title="Retrieves the location of the terminal.">Bluevia.Location.Client.BV_Location.GetLocation</a> </p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                LocationInfo locationInfo = locationClient.GetLocation
+                (
+                        accuracy:500 <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p><b>Processing the response:</b> <br/>
+<a class="el" href="class_bluevia_1_1_location_1_1_schemas_1_1_location_info.html" title="Object to contain the Location Info data.">Bluevia.Location.Schemas.LocationInfo</a> <br/>
+Once the server responds the user have to retrieve the location information from the returned LocationInfo instance. The LocationInfo includes the status of the client request and the the location information. </p>
+<p>&#160;</p>
 <p><b>Guides:</b> </p>
 <ul>
 <li>
 <a class="el" href="blv_using_bluevia.html">Using Bluevia</a> </li>
 <li>
-<a class="el" href="blv_common.html">Common</a> </li>
+<a class="el" href="blv_authorization.html">Authorization</a> </li>
 <li>
 <a class="el" href="blv_api_oauth.html">Oauth</a> </li>
 <li>
@@ -128,17 +164,12 @@ Getting Location Info: <div class="fragment"><pre class="fragment">        var r
 </div>
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="footer">Generated on Mon Jan 23 2012 08:36:16 for Bluevia by&#160;
-<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
-    </ul>
-  </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Properties</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Properties</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -147,6 +178,7 @@ Getting Location Info: <div class="fragment"><pre class="fragment">        var r
 </iframe>
 </div>
 
+<footer>
+Telefonica R&D, Bluevia's SDK Team.
+</footer>
 
-</body>
-</html>

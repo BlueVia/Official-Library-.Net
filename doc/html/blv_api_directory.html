@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Bluevia: DIRECTORY API</title>
+<title>Bluevia .NET SDK: DIRECTORY API GUIDE</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,8 +25,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="BlueviaLogo.jpg"></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Bluevia&#160;<span id="projectnumber">1.5</span></div>
+   <div id="projectname">Bluevia .NET SDK&#160;<span id="projectnumber">1.6</span></div>
   </td>
  </tr>
  </tbody>
@@ -36,8 +37,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="dirs.html"><span>Directories</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -72,63 +75,158 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="doc-content">
 <div class="header">
   <div class="headertitle">
-<h1>DIRECTORY API </h1>  </div>
+<h1>DIRECTORY API GUIDE </h1>  </div>
 </div>
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="section_directory"></a> </p>
 <h2><a class="anchor" id="section_directory"></a>
 DIRECTORY:</h2>
-<p><a href="https://bluevia.com/en/knowledge/APIs.API-Guides.GetUserInformation" target="_blank">Bluevia's Directory API Guide</a> </p>
-<p>The Bluevia Directory API is a set of functions which allows users to retrieve user-related information, divided in three blocks (user profile, access information and user terminal information).</p>
-<h2><a class="anchor" id="objects_directory"></a>
-Objects:</h2>
-<h2><a class="anchor" id="methods_directory"></a>
-Methods:</h2>
-<p><a class="anchor" id="methods_directory"></a> </p>
+<p>The <a class="el" href="namespace_bluevia.html">Bluevia</a> Directory API is a set of functions which allows users to retrieve user-related information, divided in four blocks (user's personal, user's profile, access information and user terminal information). <br/>
+This guide represents a practical introduction to developing applications in which the user wants to provide the <a class="el" href="namespace_bluevia.html">Bluevia</a> Directory functionality. </p>
+<p>If you want to understand how Directory API works please read the BlueVia <a href="https://www.bluevia.com/en/page/tech.APIs.DirectoryAPI">Bluevia's Directory API guide</a>.</p>
+<p>Don't forget to read the <a class="el" href="blv_authorization.html">authorization guide</a> first.</p>
+<p><b>This guide is divided into the following sections:</b> </p>
 <ul>
 <li>
-Getting user profile: <ul>
+<a href="#clients_directory">Directory Client</a>. </li>
 <li>
-First mode: <div class="fragment"><pre class="fragment">                var response = authenticatedRequest
-                .Directory.ProfileInfo.Get();
-</pre></div> </li>
+<a href="#methods_directory">Directory Methods</a>. <ul>
 <li>
-Second mode: <div class="fragment"><pre class="fragment">                var response = authenticatedRequest
-                .Directory.ProfileInfo.Get(Directory.Schemas.ProfileFields.field | Directory.Schemas.ProfileFields.field …);
-</pre></div> </li>
-</ul>
-</li>
+<a href="#directory_getting_all">Retrieving User Info</a>. </li>
 <li>
-Getting user access info: <ul>
+<a href="#directory_getting_acc">Retrieving Access Info</a>. </li>
 <li>
-First mode: <div class="fragment"><pre class="fragment">                var response = authenticatedRequest
-                .Directory.AccessInfo.Get();
-</pre></div> </li>
+<a href="#directory_getting_pro">Retrieving Profile Info</a>. </li>
 <li>
-Second mode: <div class="fragment"><pre class="fragment">                var response = authenticatedRequest
-                .Directory.AccessInfo.Get(Directory.Schemas.AccessInfoFields.field);
-</pre></div> </li>
-</ul>
-</li>
+<a href="#directory_getting_per">Retrieving Personal Info</a>. </li>
 <li>
-Getting user terminal info: <ul>
-<li>
-First mode: <div class="fragment"><pre class="fragment">                var response = authenticatedRequest
-                .Directory.TerminalInfo.Get();
-</pre></div> </li>
-<li>
-Second mode: <div class="fragment"><pre class="fragment">                var response = authenticatedRequest
-                .Directory.TerminalInfo.Get(Directory.Schemas.TerminalInfoFields.field |Directory.Schemas.TerminalInfoFields.field);
-</pre></div> </li>
+<a href="#directory_getting_ter">Retrieving Terminal Info</a>. </li>
 </ul>
 </li>
 </ul>
+<p>&#160;</p>
+<p><a class="anchor" id="clients_directory"></a> </p>
+<h3><a class="anchor" id="clients_directory"></a>
+Directory Client</h3>
+<p>A Directory client represents the client side in a classic client-server schema. This object wraps up the underlying REST client side functionality needed to perform requests against a REST server.</p>
+<p><b>Creating a Directory client:</b> <br/>
+<a class="el" href="class_bluevia_1_1_directory_1_1_client_1_1_b_v___directory.html#a332d2f5e0bc71a97b301030bb525036a" title="Initializes a new instance of the BV_Directory. 3 Legged Constructor.">Bluevia.Directory.Client.BV_Directory.BV_Directory</a> </p>
+<ul>
+<li>
+Directory Client: <div class="fragment"><pre class="fragment">        BV_Directory directoryClient = <span class="keyword">new</span> BV_Directory(<a class="code" href="namespace_bluevia_1_1_core.html#a6d597bbeea6b9b015d7d048b1b998ff7" title="BVMode.">BVMode</a>.MODE, consumerKey, consumerSecret, token, tokenSecret);
+</pre></div>  </li>
+</ul>
+<p>&#160;</p>
+<h2><a class="anchor" id="methods_directory"></a>
+Methods:</h2>
+<p><a class="anchor" id="methods_directory"></a></p>
+<p><a class="anchor" id="directory_getting_all"></a> <b>Retrieving User Info:</b> <br/>
+<a class="el" href="class_bluevia_1_1_directory_1_1_client_1_1_b_v___directory.html#a1b5888c08e082afcd4637eb8e319d243" title="Allows an application to get all the user context information. Applications will only be able to retr...">Bluevia.Directory.Client.BV_Directory.GetUserInfo</a> <br/>
+This method retrieves the whole user info resource block from the directory. User profile includes user profile, access, personal and terminal info blocks. The signature of the method is: </p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                UserInfo userInfo = directoryClient.GetUserInfo
+                (
+                        dataSet: null <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p>Check the UserInfo object to see the information that can be obtained from the GetUserInfo method. <br/>
+<a class="el" href="class_bluevia_1_1_directory_1_1_schemas_1_1_user_info.html" title="Object to contain the User Info data.">Bluevia.Directory.Schemas.UserInfo</a></p>
+<p><b>Selecting blocks in requests:</b> <br/>
+Bluevia.Directory.Client.DirectoryDataSets <br/>
+In case the user doesn't want to retrieve all blocks, there is an option to retrieve only a subset of the available information, using filters. An array of DirectoryDataSets can be included in the request selecting the desired info blocks. The parameter dataSet must be an array of DirectoryDataSets. You can include two or three DirectoryDataSets.</p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                UserInfo userInfo = directoryClient.GetUserInfo
+                (
+                        dataSet : <span class="keyword">new</span> <a class="code" href="namespace_bluevia_1_1_directory.html#a0237f5174a1ca4cd719d79f82f4a74f8" title="Data sets that can be retrieved using the UserInfo service.">DirectoryDataSets</a>[] <span class="comment">//Optional</span>
+                        {
+                                <a class="code" href="namespace_bluevia_1_1_directory.html#a0237f5174a1ca4cd719d79f82f4a74f8" title="Data sets that can be retrieved using the UserInfo service.">DirectoryDataSets</a>.AccessInfo,
+                                <a class="code" href="namespace_bluevia_1_1_directory.html#a0237f5174a1ca4cd719d79f82f4a74f8" title="Data sets that can be retrieved using the UserInfo service.">DirectoryDataSets</a>.TerminalInfo
+                        }  
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p> In case you need all the blocks, dont include the parameter. Individual blocks can be obtained through its own method, as can be seen below: </p>
+<p><br/>
+</p>
+<p><a class="anchor" id="directory_getting_acc"></a> <b>Retrieving Access Info:</b> <br/>
+<a class="el" href="class_bluevia_1_1_directory_1_1_client_1_1_b_v___directory.html#a37f2fd81cef0a243f456bec4e6fda0c6" title="Retrieves the whole User Access Information resource block from the directory. Applications will only...">Bluevia.Directory.Client.BV_Directory.GetAccessInfo</a></p>
+<p>This method retrieves the whole user access information resource block from the directory. User access information correspond to the user connection profile and includes information like the access connection type, APN, roaming status, etc. The signature of the method is:</p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                AccessInfo accessInfo = directoryClient.GetAccessInfo
+                (
+                        fields: null <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p>Check the AccessInfo object to see the information that can be obtained from the GetAccessInfo method. <br/>
+<a class="el" href="class_bluevia_1_1_directory_1_1_schemas_1_1_access_info.html" title="Object to contain the Access Info data.">Bluevia.Directory.Schemas.AccessInfo</a></p>
+<p><b>Selecting fields in requests:</b> <br/>
+Bluevia.Directory.Client.AccessFields <br/>
+In case the user doesn't want to retrieve the whole block, there is an option to retrieve only a subset of the available information, using filters. An array of AccessFields can be included in the request selecting the desired info fields. </p>
+<p><br/>
+</p>
+<p><a class="anchor" id="directory_getting_pro"></a> <b>Retrieving Profile Info:</b> <br/>
+<a class="el" href="class_bluevia_1_1_directory_1_1_client_1_1_b_v___directory.html#a404695fcf28cf87289b850c567fb99d5" title="Retrieves the whole User Profile Information resource block from the directory. Applications will onl...">Bluevia.Directory.Client.BV_Directory.GetProfileInfo</a></p>
+<p>This method retrieves the user profile resource block from the directory. User profile includes payment options, subscription to services, customer type and other operator related information. The signature of the method is: </p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                ProfileInfo profileInfo = directoryClient.GetProfileInfo
+                (
+                        fields: null <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p>Check the ProfileInfo object to see the information that can be obtained from the GetProfileInfo method. <br/>
+<a class="el" href="class_bluevia_1_1_directory_1_1_schemas_1_1_profile_info.html" title="Object to contain the Profile Info data.">Bluevia.Directory.Schemas.ProfileInfo</a></p>
+<p><b>Selecting fields in requests:</b> <br/>
+Bluevia.Directory.Client.ProfileFields <br/>
+In case the user doesn't want to retrieve the whole block, there is an option to retrieve only a subset of the available information, using filters. An array of ProfileFields can be included in the request selecting the desired info fields. </p>
+<p><br/>
+</p>
+<p><a class="anchor" id="directory_getting_per"></a> <b>Retrieving Personal Info:</b> <br/>
+<a class="el" href="class_bluevia_1_1_directory_1_1_client_1_1_b_v___directory.html#abe5cd9f0aa79e7abde94118cf79d20e3" title="Retrieves the whole User Personal Information resource block from the directory. Applications will on...">Bluevia.Directory.Client.BV_Directory.GetPersonalInfo</a></p>
+<p>This method retrieves the whole user personal information resource block from the directory. This block includes personal information about the user, such as the gender. The signature of the method is: </p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                PersonalInfo personalInfo = directoryClient.GetPersonalInfo
+                (
+                        fields: null <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p>Check the PersonalInfo object to see the information that can be obtained from the GetPersonalInfo method. <br/>
+<a class="el" href="class_bluevia_1_1_directory_1_1_schemas_1_1_personal_info.html" title="Object to contain the Personal Info data.">Bluevia.Directory.Schemas.PersonalInfo</a></p>
+<p><b>Selecting fields in requests:</b> <br/>
+Bluevia.Directory.Client.PersonalFields <br/>
+In case the user doesn't want to retrieve the whole block, there is an option to retrieve only a subset of the available information, using filters. An array of PersonalFields can be included in the request selecting the desired info fields. </p>
+<p><br/>
+</p>
+<p><a class="anchor" id="directory_getting_ter"></a> <b>Retrieving Terminal Info:</b> <br/>
+<a class="el" href="class_bluevia_1_1_directory_1_1_client_1_1_b_v___directory.html#a85b1957b7bd090879150ddaf37d5c68a" title="Retrieves the whole User Terminal Information resource block from the directory. Applications will on...">Bluevia.Directory.Client.BV_Directory.GetTerminalInfo</a></p>
+<p>This method retrieves the whole user terminal information resource block from the directory. This block includes information about the terminal being used by the end-user. The signature of the method is: </p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                TerminalInfo terminalInfo = directoryClient.GetTerminalInfo
+                (
+                        fields: null <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p>Check the TerminalInfo object to see the information that can be obtained from the GetTerminalInfo method. <br/>
+<a class="el" href="class_bluevia_1_1_directory_1_1_schemas_1_1_terminal_info.html" title="Object to contain the Terminal Info data.">Bluevia.Directory.Schemas.TerminalInfo</a></p>
+<p><b>Selecting fields in requests:</b> <br/>
+Bluevia.Directory.Client.TerminalFields <br/>
+In case the user doesn't want to retrieve the whole block, there is an option to retrieve only a subset of the available information, using filters. An array of TerminalFields can be included in the request selecting the desired info fields. </p>
 <p><b>Guides:</b> </p>
 <ul>
 <li>
 <a class="el" href="blv_using_bluevia.html">Using Bluevia</a> </li>
 <li>
-<a class="el" href="blv_common.html">Common</a> </li>
+<a class="el" href="blv_authorization.html">Authorization</a> </li>
 <li>
 <a class="el" href="blv_api_oauth.html">Oauth</a> </li>
 <li>
@@ -154,17 +252,12 @@ Second mode: <div class="fragment"><pre class="fragment">                var res
 </div>
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="footer">Generated on Mon Jan 23 2012 08:36:16 for Bluevia by&#160;
-<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
-    </ul>
-  </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Properties</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Properties</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -173,6 +266,7 @@ Second mode: <div class="fragment"><pre class="fragment">                var res
 </iframe>
 </div>
 
+<footer>
+Telefonica R&D, Bluevia's SDK Team.
+</footer>
 
-</body>
-</html>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Bluevia: MMS API</title>
+<title>Bluevia .NET SDK: MMS API GUIDE</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,8 +25,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="BlueviaLogo.jpg"></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Bluevia&#160;<span id="projectnumber">1.5</span></div>
+   <div id="projectname">Bluevia .NET SDK&#160;<span id="projectnumber">1.6</span></div>
   </td>
  </tr>
  </tbody>
@@ -36,8 +37,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="dirs.html"><span>Directories</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -72,119 +75,380 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="doc-content">
 <div class="header">
   <div class="headertitle">
-<h1>MMS API </h1>  </div>
+<h1>MMS API GUIDE </h1>  </div>
 </div>
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="section_mms"></a> </p>
 <h2><a class="anchor" id="section_mms"></a>
 MMS:</h2>
-<p><a href="https://bluevia.com/en/knowledge/APIs.API-Guides.MMS" target="_blank">Bluevia's MMS API Guide</a> </p>
-<p>The Bluevia MMS API is a set of functions which allows users to send and receive MMS messages and request the status of those previously sent messages. Also you can subscribe notifications to your own server. In must be considered that the available Content-Types, MMS can carry are (as named in MMS/Schemas/MMSContentTypes.cs): </p>
-<p><em> text/plain. image/jpeg, image/bmp, image/gif, image/png. audio/amr, audio/midi, audio/mp3, audio/mpeg, audio/wav. video/mp4, video/avi, video/3gpp. </em> 300KB as much, for good performance.</p>
-<p><b>Note that MMS_MO requests are now made by 2leggedOauth mode (not authorized clients)</b> <br/>
-And from now, you can retrieve a single attachment using "GetMessages", and "GetAttachment".</p>
-<h2><a class="anchor" id="objects_mms"></a>
-Objects:</h2>
-<p><a class="anchor" id="objects_mms"></a> </p>
+<p>The <a class="el" href="namespace_bluevia.html">Bluevia</a> MMS API is a set of functions which allows users to send and receive MMS messages and request the status of those previously sent messages. Also you can subscribe notifications to your own server to receive both sending status, and MMS. <br/>
+<br/>
+This API is divided in to functional modes: Mobile's terminated mode <b>(MT)</b> which wraps the functions that need a final user's authorization. And Mobile's originated mode <b>(MO)</b> which wraps the functions that only need the API keys. <br/>
+<br/>
+This guide represents a practical introduction to developing applications in which the user wants to provide the <a class="el" href="namespace_bluevia.html">Bluevia</a> MMS functionality. </p>
+<p>If you want to understand how MMS API works please read the BlueVia <a href="https://www.bluevia.com/en/page/tech.APIs.MMSAPI">Bluevia's MMS API guide</a>.</p>
+<p>Don't forget to read the <a class="el" href="blv_authorization.html">authorization guide</a> first.</p>
+<p><b>This guide is divided into the following sections:</b> </p>
 <ul>
 <li>
-<p class="startli">UserIdTypes: </p>
-<p class="endli">Consider that for this api, the UserIdType objects must match the phoneNumber category: </p>
-<div class="fragment"><pre class="fragment">        UserIdType destination = <span class="keyword">new</span> UserIdType { 
-        Item = <span class="stringliteral">&quot;the destination number&quot;</span>, ItemElementName = Bluevia.MMS.Schemas.ItemChoiceType1.phoneNumber };
-</pre></div>  </li>
+<a href="#clients_MMS">MMS Clients</a>. <ul>
 <li>
-Creating a message object: <div class="fragment"><pre class="fragment">        Bluevia.MMS.Schemas.MessageType message = <span class="keyword">new</span> Bluevia.MMS.Schemas.MessageType
-        (<span class="keyword">new</span> <span class="keywordtype">string</span>[] {<span class="stringliteral">&quot;Destination 1&quot;</span>,<span class="stringliteral">&quot;Destination 2&quot;</span>...    },<span class="stringliteral">&quot;Message text&quot;</span>*optional);
-</pre></div>  </li>
+<a href="#client_MMS_MT">The MMS Mobile terminated(MT) 3legged client</a>. </li>
 <li>
-Creating a FileAttachment object: <div class="fragment"><pre class="fragment">        Bluevia.Core.Schemas.FileAttachment file = <span class="keyword">new</span> Bluevia.Core.Schemas.FileAttachment
-        (<span class="stringliteral">&quot;PathToFile&quot;</span>, MMS.Schemas.MMSContentTypes.type);
-</pre></div>  </li>
-<li>
-Creating a StreamAttachment object: <ul>
-<li>
-First mode: <div class="fragment"><pre class="fragment">                Bluevia.Core.Schemas.StreamAttachment stream = <span class="keyword">new</span> Bluevia.Core.Schemas.StreamAttachment
-                (byte[] data, MMS.Schemas.MMSContentTypes.type, <span class="keywordtype">string</span> fileName);
-</pre></div> </li>
-<li>
-Second mode: &lt; <div class="fragment"><pre class="fragment">                Bluevia.Core.Schemas.StreamAttachment stream = <span class="keyword">new</span> Bluevia.Core.Schemas.StreamAttachment
-                (System.IO.MemoryStream data, MMS.Schemas.MMSContentTypes.type, <span class="keywordtype">string</span> fileName);
-</pre></div> </li>
+<a href="#client_MMS_MO">The MMS Mobile originated(MO) 2legged client</a>. </li>
 </ul>
 </li>
 <li>
-Creating a MessageNotification object: <div class="fragment"><pre class="fragment">        Bluevia.MMS.Schemas.MessageNotificationType notificationObject = <span class="keyword">new</span> Bluevia.MMS.Schemas.MessageNotificationType()
+<a href="#methods_MMS">MMS Methods</a>. <ul>
+<li>
+<a href="#methods_MMS_MT">MMS MT Methods</a>. <ul>
+<li>
+<a href="#MMS_MT_sending">Sending a MMS message</a>. </li>
+<li>
+<a href="#MMS_MT_getting_sta">Requesting the status of a previously sent MMS message</a>. </li>
+</ul>
+</li>
+<li>
+<a href="#methods_MMS_MO">MMS MO Methods</a>. <ul>
+<li>
+<a href="#MMS_MO_getting_all">Retrieving MMS messages info list</a>. </li>
+<li>
+<a href="#MMS_MO_getting_mess">Retrieving a single full MMS message</a>. </li>
+<li>
+<a href="#MMS_MO_getting_att">Retrieving a single attachment</a>. </li>
+<li>
+<a href="#MMS_MO_subscribe">Subscribing notification to receive MMS</a>. </li>
+<li>
+<a href="#MMS_MO_unsubscribe">Unsubscribing notification to stop receiving MMS</a>. </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>&#160;</p>
+<p><a class="anchor" id="clients_MMS"></a> </p>
+<h3><a class="anchor" id="clients_MMS"></a>
+MMS Clients</h3>
+<p>A MMS client represents the client side in a classic client-server schema. This object wraps up the underlying REST client side functionality needed to perform requests against a REST server.</p>
+<p><a class="anchor" id="clients_MMS_MT"></a> </p>
+<h3><a class="anchor" id="clients_MMS_MT"></a>
+MMS MT Client</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_m_m_s_1_1_client_1_1_b_v___m_t_m_m_s.html#a5775c2f143a3e6607da9a3f324e3b973" title="Initializes a new instance of the BV_MTMMS.3 Legged Constructor.">Bluevia.Messagery.MMS.Client.BV_MTMMS.BV_MTMMS</a> </p>
+<ul>
+<li>
+MT Client: <div class="fragment"><pre class="fragment">        BV_MTMMS clientMT = <span class="keyword">new</span> BV_MTMMS(<a class="code" href="namespace_bluevia_1_1_core.html#a6d597bbeea6b9b015d7d048b1b998ff7" title="BVMode.">BVMode</a>.MODE, consumerKey, consumerSecret, token, tokenSecret);
+</pre></div>  </li>
+</ul>
+<p><a class="anchor" id="clients_MMS_MO"></a> </p>
+<h3><a class="anchor" id="clients_MMS_MO"></a>
+MMS MO Client</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_m_m_s_1_1_client_1_1_b_v___m_o_m_m_s.html#ad054389507163dc9d9d954ab5979cdc1" title="Initializes a new instance of the BV_MOMMS.2 Legged Constructor.">Bluevia.Messagery.MMS.Client.BV_MOMMS.BV_MOMMS</a> </p>
+<ul>
+<li>
+MO Client: <div class="fragment"><pre class="fragment">        BV_MOMMS clientMO = <span class="keyword">new</span> BV_MOMMS(<a class="code" href="namespace_bluevia_1_1_core.html#a6d597bbeea6b9b015d7d048b1b998ff7" title="BVMode.">BVMode</a>.MODE, consumerKey, consumerSecret);
+</pre></div>  </li>
+</ul>
+<p>&#160;</p>
+<p><a class="anchor" id="methods_MMS"></a> </p>
+<h3><a class="anchor" id="methods_MMS"></a>
+MMS Methods</h3>
+<p>&#160;</p>
+<p><a class="anchor" id="methods_MMS_MT"></a> </p>
+<h3><a class="anchor" id="methods_MMS_MT"></a>
+MMS MT Methods</h3>
+<p><a class="anchor" id="MMS_MT_sending"></a> </p>
+<h3><a class="anchor" id="MMS_MT_sending"></a>
+Sending a MMS message:</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_m_m_s_1_1_client_1_1_b_v___m_t_m_m_s.html#a4d080b48325b77d28a23b305b181ddf4" title="Allows to send and MMS to the Bluevia endpoint. And offers to check the delivery status, following a notification strategy.">Bluevia.Messagery.MMS.Client.BV_MTMMS.Send</a> <br/>
+The BV_MTMMS object has different ways for sending MMS messages. A subject and at least one destination has to be defined to send the message. Other destinations, a text, and multimedia attachemtns can be included also. In addition, an endpoint and a correlator can be defined in order to receive delivery status notifications.</p>
+<ul>
+<li>
+<p class="startli"><b>Sending a MMS to a single address, with a jpg attachment, and notification info to receive the sending status in our endpoint:</b> </p>
+<ul>
+<li>
+The <b>destination</b> parameter is a single phone number to which this message is going to b sent. </li>
+<li>
+The <b>subject</b> parameter indicating the subject of the message. </li>
+<li>
+The <b>message</b> parameter, is an optional field wich offers you the possibility of adding a text attachment to the MMS, without building a full attachment from your fileSystem. </li>
+<li>
+The <b>attachments</b> parameter, is a list of attachments from your fileSystem. </li>
+<li>
+The <b>endpoint</b> parameter is the URI where your application is expecting to receive the MMS notifications. Note that BlueVia only accepts HTTPS endpoints and the server certificate must be provided during the process of requesting the API key. </li>
+<li>
+The <b>correlator</b> parameter is the application generated identifier for the subscription. This identifier will be included in the received MMS notifications for your application to correlate notifications with subscriptions. </li>
+</ul>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
         {
-        reference = <span class="keyword">new</span> SimpleReferenceType() { correlator = <span class="stringliteral">&quot;A correlator&quot;</span>, endpoint = <span class="stringliteral">&quot;The endpoint&quot;</span> },
-    destinationAddress = <span class="keyword">new</span> UserIdType[] { <span class="keyword">new</span> UserIdType() { Item = <span class="stringliteral">&quot;The short Code&quot;</span>, ItemElementName = <a class="code" href="namespace_bluevia_1_1_location_1_1_schemas.html#af89460bf82133ef2a212e9980e1f2f37">ItemChoiceType1</a>.phoneNumber } },
-    criteria = <span class="stringliteral">&quot;The criteria&quot;</span>
-        };
-</pre></div> </li>
-</ul>
-<h2><a class="anchor" id="methods_mms"></a>
-Methods:</h2>
-<p><a class="anchor" id="methods_mms"></a></p>
-<ul>
-<li>
-Sending MMS: <ul>
-<li>
-First mode: <div class="fragment"><pre class="fragment">                var response = authenticatedRequest
-                .MMS.MessageMT.Send(message, <span class="keyword">new</span> FileAttachment[] {File, File …}*optional);
-</pre></div>  </li>
-<li>
-Second mode: <div class="fragment"><pre class="fragment">                var response = authenticatedRequest
-                .MMS.MessageMT.Send(message,StreamAttachment[] streamAttachments);
-</pre></div>  </li>
-<li>
-Third mode: <div class="fragment"><pre class="fragment">                var response = authenticatedRequest
-                .MMS.MessageMT.Send(<span class="keyword">new</span> <span class="keywordtype">string</span>[] { <span class="stringliteral">&quot;Address&quot;</span>, <span class="stringliteral">&quot; Address&quot;</span>...}, <span class="stringliteral">&quot; mmsSubject&quot;</span>, <span class="keyword">new</span> FileAttachment[] {File, File …}*optional);
-</pre></div>  </li>
-</ul>
+                <span class="keywordtype">string</span> statusId = clientMT.Send
+                (
+                        destination: <span class="stringliteral">&quot;phoneNumber&quot;</span>, <span class="comment">//MANDATORY</span>
+                        subject: <span class="stringliteral">&quot;This is a Dummie MMS Subject for MMS_MT&quot;</span>, <span class="comment">//MANDATORY</span>
+                        message: null, <span class="comment">//Optional</span>
+                        attachments: <span class="keyword">new</span> Attachment[] <span class="comment">//Optional</span>
+                        {
+                                <span class="keyword">new</span> Attachment(<span class="stringliteral">&quot;D:\\pic.jpg&quot;</span>, <a class="code" href="namespace_bluevia_1_1_messagery_1_1_m_m_s.html#a93d80401f2e5a0476bf505cf901cfa40" title="The Bluevia supported mime types.">MIMEType</a>.jpeg)
+                        },
+                        endpoint: <span class="stringliteral">&quot;https://ourendpoint/statusnotificationservice&quot;</span>, <span class="comment">//Optional</span>
+                        correlator: <span class="stringliteral">&quot;A correlator&quot;</span> <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p>Note that your notification application must reply with a 204 No Content HTTP status and no body. Although your are requesting delivery status notifications, you still are able to use the Location header to ask for delivery status following the polling strategy. </p>
+<p class="endli"></p>
 </li>
 <li>
-<p class="startli">Getting Status:</p>
-<div class="fragment"><pre class="fragment">        var response = authenticatedRequest
-        .MMS.MessageMT.GetStatus(<span class="stringliteral">&quot;messageId&quot;</span>,<span class="stringliteral">&quot;Status&quot;</span>*optional);
-</pre></div>  </li>
+<p class="startli"><b>Sending a MMS to multiple addresses, using the optional message field to attach one text:</b></p>
+<ul>
 <li>
-<p class="startli">Retrieving MMS Id, and Attachment Id: </p>
-<p class="endli">New parameter and functionallity have been added. <br/>
- New functionallity offers you the possibility to list the attachment ids, refered to each mms id. <br/>
- For that, a boolean parameter: "useAttachmentUrl", has been added to the method. If true, a list of attachment ids, will be responsed with each messageId. <br/>
- With those attachment ids, you could retrieve a single attachment instead the full MMS.  </p>
-<div class="fragment"><pre class="fragment">        var response = request
-        .MMS.MessageMO.GetMessages(<span class="stringliteral">&quot;registrationId&quot;</span>,useAttachmentUrl);
-</pre></div>  </li>
+The <b>destination</b> parameter is an array of phone numbers to which this message is going to be sent. </li>
 <li>
-<p class="startli">Getting an Attachment: </p>
-<p class="endli">With the attachment id retrived with the previous method, you now can get a single attachment </p>
-<div class="fragment"><pre class="fragment">        var response = request
-        .MMS.MessageMO.GetAttachment(<span class="stringliteral">&quot;registrationId&quot;</span>, <span class="stringliteral">&quot;messageId&quot;</span>, <span class="stringliteral">&quot;attachmentId&quot;</span>);
-</pre></div>  </li>
+The <b>subject</b> parameter indicating the subject of the message. </li>
 <li>
-<p class="startli">Getting MMS:</p>
-<div class="fragment"><pre class="fragment">        var response = request
-        .MMS.MessageMO.GetMessage(<span class="stringliteral">&quot;registrationId&quot;</span>,<span class="stringliteral">&quot;messageId&quot;</span>);
+The <b>message</b> parameter, is an optional field wich offers you the possibility of adding a text attachment to the MMS, without building a full attachment from your fileSystem. </li>
+<li>
+The <b>attachments</b> parameter, is a list of attachments from your fileSystem. </li>
+<li>
+The <b>endpoint</b> parameter is the URI where your application is expecting to receive the MMS notifications. Note that BlueVia only accepts HTTPS endpoints and the server certificate must be provided during the process of requesting the API key. </li>
+<li>
+The <b>correlator</b> parameter is the application generated identifier for the subscription. This identifier will be included in the received MMS notifications for your application to correlate notifications with subscriptions. </li>
+</ul>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                <span class="keywordtype">string</span> statusId = clientMT.Send
+                (
+                        destination: <span class="keyword">new</span> <span class="keywordtype">string</span>[] <span class="comment">//MANDATORY</span>
+                        {
+                                <span class="stringliteral">&quot;phoneNumber1&quot;</span>,
+                                <span class="stringliteral">&quot;phoneNumber2&quot;</span>,
+                                <span class="stringliteral">&quot;phoneNumber3&quot;</span>
+                        },
+                        subject: <span class="stringliteral">&quot;This is a Dummie MMS Subject for MMS_MT&quot;</span>, <span class="comment">//MANDATORY</span>
+                        message: <span class="stringliteral">&quot;This is a text attachment&quot;</span>, <span class="comment">//Optional</span>
+                        attachments: null, <span class="comment">//Optional</span>
+                        endpoint: null, <span class="comment">//Optional</span>
+                        correlator: null <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div>  </li>
+</ul>
+<p><b>Attachments of the MMS message:</b> <br/>
+<a class="el" href="class_bluevia_1_1_messagery_1_1_m_m_s_1_1_schemas_1_1_attachment.html" title="A class to hold the info of an attachment from your file system.">Bluevia.Messagery.MMS.Schemas.Attachment</a> <br/>
+Several attachments could be attached to the MMS message (up to 300KB). You can instantiate an attachment as follows: </p>
+<div class="fragment"><pre class="fragment">Attachment attach = <span class="keyword">new</span> Attachment(<span class="stringliteral">&quot;D:\\pic.jpg&quot;</span>, <a class="code" href="namespace_bluevia_1_1_messagery_1_1_m_m_s.html#a93d80401f2e5a0476bf505cf901cfa40" title="The Bluevia supported mime types.">MIMEType</a>.jpeg);
+</pre></div><p> The following list contains the available content-types in <a class="el" href="namespace_bluevia.html">Bluevia</a>: <br/>
+<a class="el" href="namespace_bluevia_1_1_messagery_1_1_m_m_s.html#a93d80401f2e5a0476bf505cf901cfa40" title="The Bluevia supported mime types.">Bluevia.Messagery.MMS.MIMEType</a> </p>
+<ul>
+<li>
+text/plain </li>
+<li>
+image/jpeg </li>
+<li>
+image/bmp </li>
+<li>
+image/gif </li>
+<li>
+image/png </li>
+<li>
+audio/amr </li>
+<li>
+audio/midi </li>
+<li>
+audio/mp3 </li>
+<li>
+audio/mpeg </li>
+<li>
+audio/wav </li>
+<li>
+video/mp4 </li>
+<li>
+video/avi </li>
+<li>
+video/3gpp </li>
+</ul>
+<p>&#160;</p>
+<p><a class="anchor" id="MMS_MT_getting_sta"></a> </p>
+<h3><a class="anchor" id="MMS_MT_getting_sta"></a>
+Requesting the status of a previously sent MMS message:</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_m_m_s_1_1_client_1_1_b_v___m_t_m_m_s_client.html#a3538d69f435ada679fdacad42b9a4c31" title="Allows to know the delivery status of a previous sent message using Bluevia API.">Bluevia.Messagery.MMS.Client.BV_MTMMS.GetDeliveryStatus</a> <br/>
+Once the MMS message is sent successfully the user may want to know the delivery status of that MMS message. The MMS client allows a user to determine if the MMS message reaches the destination or not. For this matter we use the GetDeliveryStatus function. Just pass the MMS Id (returned by the send function) and retrieve the delivery status of that message, that easy!. </p>
+<ul>
+<li>
+The <b>messageId</b> parameter is the message identifier of the message, wich status we want to know. </li>
+</ul>
+<div class="fragment"><pre class="fragment"><span class="keywordflow">try</span>
+{
+        DeliveryInfo[] deliveryInfos = clientMT.GetDeliveryStatus
+        (
+                messageId: statusId <span class="comment">//MANDATORY</span>
+        );
+}
+<span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p> Possible delivery status are: </p>
+<ul>
+<li>
+DeliveredToNetwork. </li>
+<li>
+DeliveryUncertain. </li>
+<li>
+DeliveryImpossible. </li>
+<li>
+MessageWaiting. </li>
+<li>
+DeliveredToTerminal. </li>
+<li>
+DeliveryNotificationNotSupported. </li>
+</ul>
+<p>&#160;</p>
+<p><a class="anchor" id="methods_MMS_MO"></a> </p>
+<h3><a class="anchor" id="methods_MMS_MO"></a>
+MMS MO Methods:</h3>
+<p><a class="anchor" id="MMS_MO_getting_all"></a></p>
+<h3><a class="anchor" id="MMS_MO_getting_all"></a>
+Retrieving MMS messages list:</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_m_m_s_1_1_client_1_1_b_v___m_o_m_m_s_client.html#acd723c13013f9991bc583415d90b6744" title="Poll for new messages received that fulfil the criteria identified by registrationId. The application can get new messages of two ways, according to messageidentifier which is returned in this operation. One way is when the application will invoke get Message and the application will read the messages received. The other option will read the messages received through of the operations get Messages URIs and get Attachement.">Bluevia.Messagery.MMS.Client.BV_MOMMS.GetAllMessages</a> <br/>
+Your application can do polling to receive MMS from users sent to <a class="el" href="namespace_bluevia.html">Bluevia</a> shortcodes including your application keyword. The parameter 'registrationId' corresponds to the shortcode of the country whose messages are being retrieved. The operation to get received messages has to be done in two steps. First you have to use the GetAllMessages function to retreive the messages info, including the short number. Depending on the value of the 'attachUrl' parameter (false by default), the second step would be done in two different ways. If the parameter is true, the ids of the attachments will be retreived in order to use the GetAttachment operation; otherwise the attachments would have to be obtained throught the GetMessage function. </p>
+<ul>
+<li>
+The <b>registrationId</b> parameter, is the short number corresponding to the user's country, including the country code. </li>
+<li>
+The <b>attachUrl</b> parameter, is the flag wich indicates if the single attachment info is wanted to be received or not. </li>
+</ul>
+<p>The function signature is: </p>
+<ul>
+<li>
+<p class="startli">Getting the message info list, to further retrieve a full message (in this case, the attachment identifiers won't be received with the messages info list): </p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                MMSMessageInfo[] inboxMessages = clientMO.GetAllMessages
+                (
+                        registrationId: <span class="stringliteral">&quot;shortCode&quot;</span>, <span class="comment">//MANDATORY</span>
+                        attachUrl: <span class="keyword">false</span> <span class="comment">//Optional</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
 </pre></div> <p class="endli"></p>
 </li>
 <li>
-<p class="startli">Subscribe Notifications:</p>
-<div class="fragment"><pre class="fragment">        var response = request
-        .MMS.NotificationManager.Subscribe(notificationObject);
-</pre></div>  </li>
-<li>
-<p class="startli">Unsubscribe Notifications:</p>
-<div class="fragment"><pre class="fragment">        var response = request
-        .MMS.NotificationManager.UnSubscribeNotification(<span class="stringliteral">&quot;notificationId&quot;</span>);
+Getting the message info list, to further retrieve single attachments(in this case, the attachment identifiers will be received with the messages info list): <div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                MMSMessageInfo[] inboxMessages = clientMO.GetAllMessages
+                (
+                        registrationId: <span class="stringliteral">&quot;shortCode&quot;</span>, <span class="comment">//MANDATORY</span>
+                        attachUrl: <span class="keyword">true</span> <span class="comment">//MANDATORY to further use GetAttachment</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
 </pre></div>  </li>
 </ul>
+<p><b>Processing the response:</b> <br/>
+<a class="el" href="class_bluevia_1_1_messagery_1_1_m_m_s_1_1_schemas_1_1_m_m_s_message_info.html" title="Class representing the MmsMessageInfo elements that will be received using the MMS Client API...">Bluevia.Messagery.MMS.Schemas.MMSMessageInfo</a> <br/>
+This function returns an array of MMSMessageInfo, please read the object description to further information. </p>
+<p>&#160;</p>
+<p><a class="anchor" id="MMS_MO_getting_mess"></a> </p>
+<h3><a class="anchor" id="MMS_MO_getting_mess"></a>
+Retrieving a single full MMS message:</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_m_m_s_1_1_client_1_1_b_v___m_o_m_m_s_client.html#ae63e46dda72cfb40c9b64a4500c8c6c3" title="This method will retrieve the whole message, and its attachments.">Bluevia.Messagery.MMS.Client.BV_MOMMS.GetMessage</a> <br/>
+In order to retreive a full MMS you have to use the following function. The messageId can be obtained in the MMSMessageInfo object returned by the previous function. The resultant MMSMessage object contains the info of the MMS and a list of MimeContent objects representing the attachments: </p>
+<ul>
+<li>
+The <b>registrationId</b> parameter is the short number corresponding to the user's country, including the country code. </li>
+<li>
+The <b>messageId</b> parameter is the reference of the message stored in the server. If the message is pure text, this parameter is not present in the GetAllMessages response. </li>
+</ul>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                MMSMessage message = clientMO.GetMessage
+                (
+                        registrationId: <span class="stringliteral">&quot;shortCode&quot;</span>, <span class="comment">//MANDATORY</span>
+                        messageId: <span class="stringliteral">&quot;messageIdentifier&quot;</span> <span class="comment">//MANDATORY</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p>  <b>Processing the response:</b> <br/>
+<a class="el" href="class_bluevia_1_1_messagery_1_1_m_m_s_1_1_schemas_1_1_m_m_s_message.html" title="This class defines the received answer of the GetMessage().">Bluevia.Messagery.MMS.Schemas.MMSMessage</a> <br/>
+This function returns a single MMSMessage, please read the object description to further information. </p>
+<p>&#160;</p>
+<p><a class="anchor" id="MMS_MO_getting_att"></a> </p>
+<h3><a class="anchor" id="MMS_MO_getting_att"></a>
+Retrieving a single attachment:</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_m_m_s_1_1_client_1_1_b_v___m_o_m_m_s_client.html#a2c45dfa8f4c8badd9fafafc014f8557b" title="This method allows to retrieve a single multimedia attachment of the MMS.">Bluevia.Messagery.MMS.Client.BV_MOMMS.GetAttachment</a> <br/>
+In order to retreive a single attachment you have to use the following function. The messageId and attachmentId can be obtained in the MMSMessageInfo object returned by the previous function. The resultant MIMEContent object contains the info of the attachments: </p>
+<ul>
+<li>
+The <b>registrationId</b> parameter is the short number corresponding to the user's country, including the country code. </li>
+<li>
+The <b>messageId</b> parameter is the reference of the message stored in the server. If the message is pure text, this parameter is not present in the GetAllMessages response. </li>
+<li>
+The <b>attachmentId</b> parameter is the identifier of the attachment to be retrieved. </li>
+</ul>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                MIMEContent attachment = clientMO.GetAttachment
+                (
+                        registrationId: <span class="stringliteral">&quot;shortCode&quot;</span>, <span class="comment">//MANDATORY</span>
+                        messageId: <span class="stringliteral">&quot;messageIdentifier&quot;</span>, <span class="comment">//MANDATORY</span>
+                        attachmentId: <span class="stringliteral">&quot;attachmentIdentifier&quot;</span> <span class="comment">//MANDATORY</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div><p>  <b>Processing the response:</b> <br/>
+<a class="el" href="class_bluevia_1_1_messagery_1_1_m_m_s_1_1_schemas_1_1_m_i_m_e_content.html" title="Class representing a Mime Content (an attachment) of a received MMS.">Bluevia.Messagery.MMS.Schemas.MIMEContent</a> <br/>
+This function returns a single MIMEContent, please read the object description to further information. </p>
+<p>&#160;</p>
+<p><a class="anchor" id="MMS_MO_subscribe"></a> </p>
+<h3><a class="anchor" id="MMS_MO_subscribe"></a>
+Subscribing notification to receive MMS:</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_m_m_s_1_1_client_1_1_b_v___m_o_m_m_s_client.html#a5b8d9c6b2c34a99455a040230b2717f4" title="Request to the application to start notifications for a given destination address and criteria...">Bluevia.Messagery.MMS.Client.BV_MOMMS.StartNotification</a> <br/>
+Instead of polling to receive MMSs, you can subscribe an application to receive the MMSs on and endpoint. To do so, you must provide BlueVia an URI where notifications must be sent.</p>
+<ul>
+<li>
+The <b>phoneNumber</b> parameter is the short number corresponding to the user's country, including the country code. </li>
+<li>
+The <b>endpoint</b> parameter is the URI where your application is expecting to receive the MMS notifications. Note that BlueVia only accepts HTTPS endpoints and the server certificate must be provided during the process of requesting the API key. </li>
+<li>
+The <b>criteria</b> parameter is the keyword you chose for your application when you requested the API key. Note that keywords are case-insensitive. </li>
+<li>
+The <b>correlator</b> parameter is the application generated identifier for the subscription. This identifier will be included in the received MMS notifications for your application to correlate notifications with subscriptions. </li>
+</ul>
+<p>You can use the following code: </p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                <span class="keywordtype">string</span> subscribe = client.StartNotification
+                (
+                        phoneNumber: <span class="stringliteral">&quot;shortCode&quot;</span>, <span class="comment">//MANDATORY</span>
+                        endpoint: <span class="stringliteral">&quot;yourEndpoint&quot;</span>, <span class="comment">//MANDATORY</span>
+                        criteria: <span class="stringliteral">&quot;yourCriteria&quot;</span>, <span class="comment">//MANDATORY</span>
+                        correlator : <span class="stringliteral">&quot;yourCorrelator&quot;</span> <span class="comment">//MANDATORY</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div> <p>&#160;</p>
+<p><a class="anchor" id="MMS_MO_unsubscribe"></a> </p>
+<h3><a class="anchor" id="MMS_MO_unsubscribe"></a>
+Unsubscribing notification to stop receiving MMS:</h3>
+<p><a class="el" href="class_bluevia_1_1_messagery_1_1_m_m_s_1_1_client_1_1_b_v___m_o_m_m_s_client.html#a78ca07e9a699eeb333d4ceb637a4b811" title="The application may end delivery receipt notification using this operation.">Bluevia.Messagery.MMS.Client.BV_MOMMS.StopNotification</a> </p>
+<ul>
+<li>
+The <b>correlator</b> parameter is the application generated identifier for the subscription. This identifier will be included in the received MMS notifications for your application to correlate notifications with subscriptions. </li>
+</ul>
+<p>To stop receiving MMSs, use: </p>
+<div class="fragment"><pre class="fragment">        <span class="keywordflow">try</span>
+        {
+                <span class="keywordtype">bool</span> unsusbscribe = client.StopNotification
+                (
+                        correlator: <span class="stringliteral">&quot;yourCorrelator&quot;</span> <span class="comment">//MANDATORY</span>
+                );
+        }
+        <span class="keywordflow">catch</span> (BlueviaException e){}
+</pre></div> <p>&#160;</p>
 <p><b>Guides:</b> </p>
 <ul>
 <li>
 <a class="el" href="blv_using_bluevia.html">Using Bluevia</a> </li>
 <li>
-<a class="el" href="blv_common.html">Common</a> </li>
+<a class="el" href="blv_authorization.html">Authorization</a> </li>
 <li>
 <a class="el" href="blv_api_oauth.html">Oauth</a> </li>
 <li>
@@ -210,17 +474,12 @@ Third mode: <div class="fragment"><pre class="fragment">                var resp
 </div>
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="footer">Generated on Mon Jan 23 2012 08:36:16 for Bluevia by&#160;
-<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
-    </ul>
-  </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Properties</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Properties</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -229,6 +488,7 @@ Third mode: <div class="fragment"><pre class="fragment">                var resp
 </iframe>
 </div>
 
+<footer>
+Telefonica R&D, Bluevia's SDK Team.
+</footer>
 
-</body>
-</html>
